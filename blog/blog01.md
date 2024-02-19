@@ -1,3 +1,10 @@
+---
+title: "Blog 1 Roll-a-ball"
+author: "Adrian-Cristian Militaru"
+date: "13-02-2024"
+version: "0.1"
+---
+
 # Setting up the Game
 
 For this project, I used the Unity 2022.3.19f1 engine version and the "3D URP" project template.
