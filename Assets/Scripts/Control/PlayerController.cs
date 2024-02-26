@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
         Vector2 movement = _playerInput.actions["Move"].ReadValue<Vector2>();
         var moveVector = MoveTowardTarget(new Vector3(movement.x, 0, movement.y));
         RotateTowardMovementVector(moveVector);
+        _animator.SetBool("Attack",_playerInput.actions["Fire"].ReadValue<float>()==1?true:false);
         //transform.Translate(targetVector * _moveSpeed * Time.deltaTime);
         _animator.SetFloat("MovementSpeed",movement.magnitude);
     }

@@ -296,7 +296,7 @@
                 {
                     "name": "",
                     "id": "b8c0e90a-d8ed-48b0-b4c3-34423cf946c0",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
