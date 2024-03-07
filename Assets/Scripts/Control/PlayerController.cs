@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 namespace Control
 {
     [RequireComponent(typeof(Fighter))]
+    [RequireComponent(typeof(Health))]
     public class PlayerController : MonoBehaviour
     {
         [Header("References")] [SerializeField]
@@ -21,7 +22,7 @@ namespace Control
 
         //Other Core Elements
         private Fighter _fighter;
-
+        
         // Start is called before the first frame update
         void Start()
         {

@@ -114,10 +114,12 @@ GameObject:
   - component: {fileID: 5480169849624082239}
   - component: {fileID: 8808457525328889955}
   - component: {fileID: 2249962429989305343}
+  - component: {fileID: 5825093845880075095}
   - component: {fileID: 5818510353299849586}
+  - component: {fileID: 5592593952773071150}
   m_Layer: 0
   m_Name: MinionP1-Melee
-  m_TagString: Untagged
+  m_TagString: Team1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -189,8 +191,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolPath: {fileID: 0}
   moveSpeed: 5
-  _animator: {fileID: 0}
-  minionTransform: {fileID: 0}
+  rotationSpeed: 5
+--- !u!114 &5825093845880075095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5035575116198126428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c5fbd5ec86740dba2c91289876fdabd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyTeamTag: Team1
+  timeBetweenAttack: 0.5
+  noOfAttacks: 2
 --- !u!54 &5818510353299849586
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -218,6 +234,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &5592593952773071150
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5035575116198126428}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6295236988628463117
 GameObject:
   m_ObjectHideFlags: 0
