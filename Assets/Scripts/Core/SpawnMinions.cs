@@ -46,6 +46,6 @@ public class SpawnMinions : MonoBehaviour
     private void SpawnRegularMinions(GameObject minion)
     {
         GameObject objectSpawned = Instantiate(minion, transform.position, transform.rotation);
-        objectSpawned.GetComponent<MinionAI>().patrolPath = _patrolPath;
+        objectSpawned.GetComponentInChildren<MinionAI>().patrolPath = _patrolPath;
     }
 }
