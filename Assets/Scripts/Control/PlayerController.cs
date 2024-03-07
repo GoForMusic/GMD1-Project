@@ -16,10 +16,10 @@ namespace Control
         [SerializeField] private PlayerInput _playerInput;
         [SerializeField] private Camera _camera;
 
-        [Header("Movement")] [SerializeField] private float _moveSpeed = 10f;
-
+        [Header("Movement")] 
+        [SerializeField] private float _moveSpeed = 10f;
         [SerializeField] private float _roateSpeed = 5f;
-
+        [SerializeField] private float _weaponRange = 2f;
         //Other Core Elements
         private Fighter _fighter;
         
@@ -30,6 +30,7 @@ namespace Control
             _rb = GetComponent<Rigidbody>();
             _playerInput = GetComponent<PlayerInput>();
             _fighter = GetComponent<Fighter>();
+            _fighter.SetWeaponRange(_weaponRange);
         }
 
         // Update is called once per frame

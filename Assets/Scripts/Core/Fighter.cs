@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Static;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -15,6 +16,10 @@ namespace Core
         /// A var that will set the enemy team tag.
         /// </summary>
         private string _enemyTeamTag;
+        /// <summary>
+        /// Deal dmg to enemy var
+        /// </summary>
+        [SerializeField]private float dealDmg = 0.1f;
         /// <summary>
         /// Time between attack used for animations
         /// </summary>
@@ -33,6 +38,11 @@ namespace Core
         /// The enemy target
         /// </summary>
         private GameObject _target;
+        /// <summary>
+        /// Set weapon attack range from Minion or player
+        /// </summary>
+        private float _weaponAttackRange;
+        
         private void Awake()
         {
             if (gameObject.CompareTag("Team1"))
@@ -64,18 +74,38 @@ namespace Core
                 }
             }
         }
-        
+
+        /// <summary>
+        /// Hit event when hit with the animation
+        /// </summary>
+        void Hit()
+        {
+            if (_target ==null) return;
+
+
+            if (Vector3.Distance(transform.position, _target.transform.position) < 2.0f)
+            {
+                Health enemyHealth = _target.GetComponent<Health>();
+                enemyHealth.DealDamage(dealDmg);
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.CompareTag(_enemyTeamTag))
             {
-                _target = other.gameObject;
+                _target=other.gameObject;
             }
         }
-
+        
         public GameObject GetEnemyTarget()
         {
             return _target;
+        }
+
+        public void SetWeaponRange(float weaponAttackRange)
+        {
+            this._weaponAttackRange = weaponAttackRange;
         }
     }
 }

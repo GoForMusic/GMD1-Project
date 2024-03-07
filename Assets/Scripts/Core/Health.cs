@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Static;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -43,8 +44,9 @@ namespace Core
         /// Take damage, if health == 0 , than die
         /// </summary>
         /// <param name="damage">damage amount you receive</param>
-        public void TakeDamage(float damage)
+        public void DealDamage(float damage)
         {
+            Debug.Log("Get dmg :" + damage);
             _currentHealth = Mathf.Max(_currentHealth-damage,0);
             UpdateHealthBar();
             if (_currentHealth == 0)
@@ -60,7 +62,7 @@ namespace Core
         {
             if(_isDead) return;
             _isDead = true;
-            GetComponent<Animator>().SetTrigger("die");
+            GetComponent<Animator>().SetTrigger(AnimatorParameters.Die);
         }
         
         /// <summary>

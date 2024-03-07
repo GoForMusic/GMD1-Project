@@ -1348,6 +1348,8 @@ GameObject:
   - component: {fileID: 7672937370693414351}
   - component: {fileID: 3505457250787994901}
   - component: {fileID: 3979500133668174644}
+  - component: {fileID: 4482723148788161169}
+  - component: {fileID: 109342079604059810}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Team1
@@ -1495,6 +1497,35 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &4482723148788161169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4384516754766227289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c5fbd5ec86740dba2c91289876fdabd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dealDmg: 0.1
+  timeBetweenAttack: 0.53
+  noOfAttacks: 3
+--- !u!114 &109342079604059810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4384516754766227289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fa0980ddad56dd44828125c878993c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  healthBar: {fileID: 0}
 --- !u!1 &4971543712057296016
 GameObject:
   m_ObjectHideFlags: 0
