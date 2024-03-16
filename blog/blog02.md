@@ -2,7 +2,7 @@
 title: "Blog 2 Game Design Document"
 author: "Adrian-Cristian Militaru"
 date: "19-02-2024"
-version: "0.1"
+version: "0.2"
 ---
 
 ## High Level Concept\Design
