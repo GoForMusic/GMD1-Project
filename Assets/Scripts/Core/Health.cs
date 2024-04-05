@@ -63,8 +63,12 @@ namespace Core
             if(_isDead) return;
             _isDead = true;
 
-            //Disable NavMeshAgent
-            GetComponent<NavMeshAgent>().enabled = false;
+            // Disable NavMeshAgent if it exists
+            NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
+            if (navMeshAgent != null)
+            {
+                navMeshAgent.enabled = false;
+            }
             
             // Disable the collider
             Collider collider = GetComponent<Collider>();

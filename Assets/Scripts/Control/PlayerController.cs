@@ -11,13 +11,12 @@ namespace Control
     {
         [Header("References")] [SerializeField]
         private Animator _animator;
-
-        [SerializeField] private Rigidbody _rb;
+        [SerializeField] private CharacterController _controller;
         [SerializeField] private PlayerInput _playerInput;
         [SerializeField] private Camera _camera;
 
         [Header("Movement")] 
-        [SerializeField] private float _moveSpeed = 10f;
+        [SerializeField] private float _moveSpeed = 25f;
         [SerializeField] private float _roateSpeed = 5f;
         [SerializeField] private float _weaponRange = 2f;
         //Other Core Elements
@@ -27,7 +26,7 @@ namespace Control
         void Start()
         {
             _animator = GetComponent<Animator>();
-            _rb = GetComponent<Rigidbody>();
+            _controller = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
             _fighter = GetComponent<Fighter>();
             _fighter.SetWeaponRange(_weaponRange);
@@ -54,11 +53,13 @@ namespace Control
 
         private Vector3 MoveTowardTarget(Vector3 targetVector)
         {
-            var speed = _moveSpeed * Time.deltaTime;
-
+            // Calculate movement direction
             targetVector = Quaternion.Euler(0, _camera.gameObject.transform.eulerAngles.y, 0) * targetVector;
-            var targetPosition = transform.position + targetVector * speed;
-            transform.position = targetPosition;
+            targetVector.Normalize(); // Normalize the vector to ensure consistent movement speed
+
+            // Move the player
+            _controller.Move(targetVector * _moveSpeed * Time.deltaTime);
+            
             return targetVector;
         }
 
