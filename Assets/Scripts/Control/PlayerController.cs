@@ -14,13 +14,14 @@ namespace Control
         [SerializeField] private CharacterController _controller;
         [SerializeField] private PlayerInput _playerInput;
         [SerializeField] private Camera _camera;
-
+        
         [Header("Movement")] 
         [SerializeField] private float _moveSpeed = 25f;
         [SerializeField] private float _roateSpeed = 5f;
         [SerializeField] private float _weaponRange = 2f;
         //Other Core Elements
         private Fighter _fighter;
+        private Health _health;
         
         // Start is called before the first frame update
         void Start()
@@ -30,11 +31,14 @@ namespace Control
             _playerInput = GetComponent<PlayerInput>();
             _fighter = GetComponent<Fighter>();
             _fighter.SetWeaponRange(_weaponRange);
+            _health = GetComponent <Health>();
         }
 
         // Update is called once per frame
         void Update()
         {
+            if(_health.IsDead()) return;
+            
             Vector2 movement = _playerInput.actions["Move"].ReadValue<Vector2>();
             var moveVector = MoveTowardTarget(new Vector3(movement.x, 0, movement.y));
             RotateTowardMovementVector(moveVector);
