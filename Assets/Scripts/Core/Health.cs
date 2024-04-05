@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using Static;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -46,7 +47,6 @@ namespace Core
         /// <param name="damage">damage amount you receive</param>
         public void DealDamage(float damage)
         {
-            Debug.Log("Get dmg :" + damage);
             _currentHealth = Mathf.Max(_currentHealth-damage,0);
             UpdateHealthBar();
             if (_currentHealth == 0)
@@ -62,6 +62,15 @@ namespace Core
         {
             if(_isDead) return;
             _isDead = true;
+
+            //Disable NavMeshAgent
+            GetComponent<NavMeshAgent>().enabled = false;
+            
+            // Disable the collider
+            Collider collider = GetComponent<Collider>();
+            if(collider != null)
+                collider.enabled = false;
+            
             GetComponent<Animator>().SetTrigger(AnimatorParameters.Die);
         }
         

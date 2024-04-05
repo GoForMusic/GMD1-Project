@@ -17,6 +17,9 @@ namespace Control
         public float rotationSpeed = 5f;
         public float weaponRange = 2f;
 
+        [Header("Player")]
+        public float followDistanceThreshold = 5f;
+        
         [Header("Root Minion Ref ONLY")]
         [SerializeField]
         private Transform _minionMeshTransform;
@@ -82,6 +85,13 @@ namespace Control
         }
         private void MoveToEnemy()
         {
+            float distanceToEnemy = Vector3.Distance(_minionMeshTransform.position, _fighter.GetEnemyTarget().transform.position);
+
+            if (distanceToEnemy > followDistanceThreshold)
+            {
+                MoveToWaypoint(); // If the enemy is too far, move to the waypoint
+                return;
+            }
             
             bool isInrange = Vector3.Distance(_minionMeshTransform.position, _fighter.GetEnemyTarget().transform.position) <
                              weaponRange;

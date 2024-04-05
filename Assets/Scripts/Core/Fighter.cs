@@ -53,6 +53,19 @@ namespace Core
                 _enemyTeamTag = "Team1";
             }
         }
+        
+        void Update()
+        {
+            if (_target != null)
+            {
+                Health enemyHealth = _target.GetComponent<Health>();
+                if (enemyHealth != null && enemyHealth.IsDead())
+                {
+                    // Clear the target if it's dead
+                    _target = null;
+                }
+            }
+        }
 
         public void AttackBehavior(Animator animator, float attackInput)
         {
@@ -90,7 +103,7 @@ namespace Core
             }
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
             if (other.gameObject.CompareTag(_enemyTeamTag))
             {

@@ -112,7 +112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 162314860457336786}
   m_Layer: 0
-  m_Name: MinionP1-Melee
+  m_Name: MinionP2-Melee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -604,7 +604,7 @@ GameObject:
   - component: {fileID: 6004534407477250784}
   m_Layer: 0
   m_Name: FootmanPolyart
-  m_TagString: Team1
+  m_TagString: Team2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -673,7 +673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c5fbd5ec86740dba2c91289876fdabd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dealDmg: 10
+  dealDmg: 0.1
   timeBetweenAttack: 1
   noOfAttacks: 2
 --- !u!114 &9101390943176189955
@@ -1004,7 +1004,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8c9cf7a0881e564429410703d99e25cd, type: 2}
+  - {fileID: 2100000, guid: a93d81c78a7ab4e449c2b4c37849cd72, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
