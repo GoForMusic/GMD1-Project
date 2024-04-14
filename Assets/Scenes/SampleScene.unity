@@ -940,7 +940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _minions:
-  - {fileID: 5035575116198126428, guid: 80e7d3e2777a5604b8aa8712bdad60d3, type: 3}
+  - {fileID: 9003645229488387263, guid: 77017705b700c01499e33231a0fd0ed1, type: 3}
   _spawnInterval: 30
   _delayBetweenMinions: 1
   _patrolPath: {fileID: 0}

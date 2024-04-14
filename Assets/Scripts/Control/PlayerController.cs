@@ -17,8 +17,8 @@ namespace Control
         
         [Header("Movement")] 
         [SerializeField] private float _moveSpeed = 25f;
-        [SerializeField] private float _roateSpeed = 5f;
-        [SerializeField] private float _weaponRange = 2f;
+        [SerializeField] private float _roateSpeed = 10f;
+        [SerializeField] private float _weaponRange = 3f;
         //Other Core Elements
         private Fighter _fighter;
         private Health _health;

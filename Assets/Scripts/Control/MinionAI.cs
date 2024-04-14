@@ -20,10 +20,6 @@ namespace Control
         [Header("Player")]
         public float followDistanceThreshold = 5f;
         
-        [Header("Root Minion Ref ONLY")]
-        [SerializeField]
-        private Transform _minionMeshTransform;
-        
         private Animator _animator;
         //Other Core Elements
         private Fighter _fighter;
@@ -63,17 +59,14 @@ namespace Control
         }
         private void MoveToWaypoint()
         {
+            if (_currentWaypointIndex >= patrolPath.GetWaypoints().Length) return;
             Vector3 targetPosition = patrolPath.GetWaypoints()[_currentWaypointIndex];
-            _minionMeshTransform.position = Vector3.MoveTowards(_minionMeshTransform.position, targetPosition, moveSpeed * Time.deltaTime);
-            _animator.SetFloat(AnimatorParameters.MovementSpeed, _minionMeshTransform.position.magnitude);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            _animator.SetFloat(AnimatorParameters.MovementSpeed, transform.position.magnitude);
 
-            if (Vector3.Distance(_minionMeshTransform .position, targetPosition) < 0.1f)
+            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
             {
                 _currentWaypointIndex++;
-                if (_currentWaypointIndex >= patrolPath.GetWaypoints().Length)
-                {
-                    _currentWaypointIndex = 0; // Loop back to the beginning
-                }
             }
 
             Vector3 direction = targetPosition - transform.position;
@@ -85,7 +78,7 @@ namespace Control
         }
         private void MoveToEnemy()
         {
-            float distanceToEnemy = Vector3.Distance(_minionMeshTransform.position, _fighter.GetEnemyTarget().transform.position);
+            float distanceToEnemy = Vector3.Distance(transform.position, _fighter.GetEnemyTarget().transform.position);
 
             if (distanceToEnemy > followDistanceThreshold)
             {
@@ -93,16 +86,16 @@ namespace Control
                 return;
             }
             
-            bool isInrange = Vector3.Distance(_minionMeshTransform.position, _fighter.GetEnemyTarget().transform.position) <
+            bool isInrange = Vector3.Distance(transform.position, _fighter.GetEnemyTarget().transform.position) <
                              weaponRange;
             if (!isInrange)
             {
                 // Move towards the enemy position
-                _minionMeshTransform.position = Vector3.MoveTowards(_minionMeshTransform.position, _fighter.GetEnemyTarget().transform.position, moveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, _fighter.GetEnemyTarget().transform.position, moveSpeed * Time.deltaTime);
                 _animator.SetFloat(AnimatorParameters.MovementSpeed, moveSpeed);
 
                 // Rotate towards the enemy position
-                Vector3 direction = _fighter.GetEnemyTarget().transform.position - _minionMeshTransform.position;
+                Vector3 direction = _fighter.GetEnemyTarget().transform.position - transform.position;
                 if (direction != Vector3.zero)
                 {
                     Quaternion rotation = Quaternion.LookRotation(direction);
