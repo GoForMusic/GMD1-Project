@@ -1,15 +1,15 @@
 ---
 title: "Blog 2 Game Design Document"
 author: "Adrian-Cristian Militaru"
-date: "19-02-2024"
-version: "0.2"
+date: "15-04-2024"
+version: "0.3"
 ---
 
 ## High Level Concept\Design
 
 | Field           | Description                   |
 |-----------------|-------------------------------|
-| Working         | [Game Title]                  |
+| Working         | Arcade mystics                 |
 | Genre(s)        | MOBA, Strategy,Top-Down 45-degree angle |
 | Platform(s)     | Win-64 Arcade emulator        |
 | Target Audience | 13+                           |
