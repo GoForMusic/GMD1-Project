@@ -1,22 +1,26 @@
-using System;
+using Control.Interfaces.Core;
+using Control.Interfaces.Minion;
 using Core;
 using Static;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Control
 {
+    
+    /// <summary>
+    /// Handles the behavior of a minion character.
+    /// </summary>
     [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(Fighter))]
     public class MinionAI : MonoBehaviour
     {
+        // Variables to set in the Inspector
         [Header("PatrolPath")]
         public PatrolPath patrolPath;
         [Header("Minion Stats")]
         public float moveSpeed = 5f;
         public float rotationSpeed = 5f;
         public float weaponRange = 2f;
-
         [Header("Player")]
         public float followDistanceThreshold = 5f;
         
@@ -24,8 +28,15 @@ namespace Control
         //Other Core Elements
         private Fighter _fighter;
         private Health _health;
-        private int _currentWaypointIndex = 0;
         
+        
+        //Interface
+        private IMinionBehavior _minionBehavior;
+        private IMovement _movement;
+        
+        /// <summary>
+        /// Initializes references and components.
+        /// </summary>
         void Start()
         {
             _animator = GetComponent<Animator>();
@@ -42,13 +53,19 @@ namespace Control
             
             // Set the minion's position to the first waypoint
             transform.position = patrolPath.GetWaypoints()[0];
+            
+            _minionBehavior = new MinionBehavior(followDistanceThreshold,weaponRange);
+            _movement = new Movement();
         }
         
+        /// <summary>
+        /// Updates the minion's behavior based on its current state.
+        /// </summary>
         void Update()
         {
-            if(_health.IsDead()) return;
-            
-            if (!SawEnemy())
+            if (_health.IsDead()) return;
+
+            if (!_minionBehavior.SawEnemy(_fighter))
             {
                 MoveToWaypoint();
             }
@@ -57,63 +74,60 @@ namespace Control
                 MoveToEnemy();
             }
         }
+
+        /// <summary>
+        /// Moves the minion towards the next waypoint.
+        /// </summary>
         private void MoveToWaypoint()
         {
-            if (_currentWaypointIndex >= patrolPath.GetWaypoints().Length) return;
-            Vector3 targetPosition = patrolPath.GetWaypoints()[_currentWaypointIndex];
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-            _animator.SetFloat(AnimatorParameters.MovementSpeed, transform.position.magnitude);
-
-            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+            var targetPosition = _minionBehavior.MoveToWaypoint(patrolPath, transform.position);
+            if (targetPosition != null)
             {
-                _currentWaypointIndex++;
-            }
-
-            Vector3 direction = targetPosition - transform.position;
-            if (direction != Vector3.zero)
-            {
-                Quaternion rotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+                RotateTowards(targetPosition.Value);
+                MoveTowards(targetPosition.Value);
             }
         }
+
+        /// <summary>
+        /// Moves the minion towards the enemy if detected.
+        /// </summary>
         private void MoveToEnemy()
         {
-            float distanceToEnemy = Vector3.Distance(transform.position, _fighter.GetEnemyTarget().transform.position);
-
-            if (distanceToEnemy > followDistanceThreshold)
+            Vector3? targetPosition = _minionBehavior.MoveToEnemy(_fighter, transform.position);
+            if (targetPosition != null)
             {
-                MoveToWaypoint(); // If the enemy is too far, move to the waypoint
-                return;
-            }
-            
-            bool isInrange = Vector3.Distance(transform.position, _fighter.GetEnemyTarget().transform.position) <
-                             weaponRange;
-            if (!isInrange)
-            {
-                // Move towards the enemy position
-                transform.position = Vector3.MoveTowards(transform.position, _fighter.GetEnemyTarget().transform.position, moveSpeed * Time.deltaTime);
-                _animator.SetFloat(AnimatorParameters.MovementSpeed, moveSpeed);
-
-                // Rotate towards the enemy position
-                Vector3 direction = _fighter.GetEnemyTarget().transform.position - transform.position;
-                if (direction != Vector3.zero)
+                RotateTowards(_fighter.GetEnemyTarget().transform.position);
+                if (targetPosition != Vector3.zero)
                 {
-                    Quaternion rotation = Quaternion.LookRotation(direction);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotationSpeed);
+                    MoveTowards(targetPosition.Value);
+                }
+                else
+                {
+                    _animator.SetFloat(AnimatorParameters.MovementSpeed, 0);
+                    _fighter.AttackBehavior(_animator, 1f);
                 }
             }
-            else
-            {
-                _animator.SetFloat(AnimatorParameters.MovementSpeed, 0);
-                _fighter.AttackBehavior(_animator,1f);
-            }
+        }
+
+        /// <summary>
+        /// Rotates the minion towards the target position.
+        /// </summary>
+        /// <param name="targetPosition">The position to rotate towards.</param>
+        private void RotateTowards(Vector3 targetPosition)
+        {
+            Quaternion rotation = _movement.Rotate(targetPosition - transform.position, transform);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
         }
         
-        // Set the enemy position and switch to enemy seeking mode
-        public bool SawEnemy()
+        /// <summary>
+        /// Moves the minion towards the target position.
+        /// </summary>
+        /// <param name="targetPosition">The position to move towards.</param>
+        private void MoveTowards(Vector3 targetPosition)
         {
-            if (_fighter.GetEnemyTarget() != null) return true;
-            else return false;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            _animator.SetFloat(AnimatorParameters.MovementSpeed, moveSpeed);
         }
+        
     }
 }
