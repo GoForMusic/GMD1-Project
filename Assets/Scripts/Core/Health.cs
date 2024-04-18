@@ -76,6 +76,7 @@ namespace Core
                 collider.enabled = false;
             
             GetComponent<Animator>().SetTrigger(AnimatorParameters.Die);
+            gameObject.tag = "Untagged";
         }
         
         /// <summary>

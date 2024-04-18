@@ -1,6 +1,6 @@
-using Control.Interfaces.Core;
-using Control.Interfaces.Minion;
 using Core;
+using Interfaces.Core;
+using Interfaces.Minion;
 using Static;
 using UnityEngine;
 

@@ -1,10 +1,8 @@
-using Control.Interfaces;
-using Control.Interfaces.Core;
 using Core;
+using Interfaces.Core;
 using Static;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace Control
 {
