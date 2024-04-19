@@ -225,15 +225,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   captureTime: 2
+  _teamID: 1
   teamMaterial:
   - {fileID: 2100000, guid: e77b003cd8771304abfc74dd93c9f934, type: 2}
   - {fileID: 2100000, guid: 4484256e7ebbe4a4eab77924649bab61, type: 2}
   - {fileID: 2100000, guid: f731a2ae89bef7a47a008811dfbd4680, type: 2}
-  miniMapMark: {fileID: 2764616553100980128}
   minimapMaterialMark:
   - {fileID: 2100000, guid: eb8d84079f9b9974e9536d7338171734, type: 2}
   - {fileID: 2100000, guid: e4d218304d14a004680464c3b39612e0, type: 2}
-  - {fileID: 2100000, guid: 26d2cc0de5c3c954486d828ae1ec49a9, type: 2}
+  - {fileID: 2100000, guid: f731a2ae89bef7a47a008811dfbd4680, type: 2}
 --- !u!135 &1258969076111223770
 SphereCollider:
   m_ObjectHideFlags: 0

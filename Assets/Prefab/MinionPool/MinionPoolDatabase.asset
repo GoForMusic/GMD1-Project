@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71eb8b2519f041b1abded042e9238bbd, type: 3}
+  m_Name: MinionPoolDatabase
+  m_EditorClassIdentifier: 
+  poolSize: 4
+  minionPrefabs:
+  - key: MinionP1-Melee
+    prefab: {fileID: 9003645229488387263, guid: 77017705b700c01499e33231a0fd0ed1, type: 3}
+    team: 0
+  - key: MinionP2-Melee
+    prefab: {fileID: 9003645229488387263, guid: f08c1bffdcdc6dd49ad0e24ac9705b00, type: 3}
+    team: 2

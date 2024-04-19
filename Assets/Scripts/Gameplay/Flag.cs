@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using Core;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,100 +13,109 @@ namespace Gameplay
         [Header("Flag properties")]
         [SerializeField]
         private float captureTime = 2f;
+        [SerializeField]
+        [Range(1,2)]
+        private int _teamID; // Team ID (1 for Team1, 2 for Team2)
         
         public Material[] teamMaterial;
         public Material[] minimapMaterialMark;
         
         private bool _capturing = false;
         private IEnumerator _captureCoroutine;
-        private string _currentCapturingTeam = "";
+        private string _currentCapturingTeam;
         
         private Renderer _flagRenderer;
         private Renderer _flagMiniMapRenderer;
 
+        [SerializeField]
+        private List<string> _tagsInCaptureZone;
+        
         private void Start()
         {
             _flagRenderer = GetComponentsInChildren<Renderer>()[1];
             _flagMiniMapRenderer = GetComponentsInChildren<Renderer>()[0];
+            _tagsInCaptureZone = new List<string>();
+            _currentCapturingTeam = "";
+            SetupFlag();
         }
 
+        private void SetupFlag()
+        {
+            // Convert team ID to team name
+            string teamName = _teamID == 1 ? "Team1Flag" : "Team2Flag";
+
+            // Change flag material based on the specified team
+            switch (teamName)
+            {
+                case "Team1Flag":
+                    _flagRenderer.material = teamMaterial[0];
+                    _flagMiniMapRenderer.material = minimapMaterialMark[0];
+                    _currentCapturingTeam = "Team1Flag";
+                    break;
+                case "Team2Flag":
+                    _flagRenderer.material = teamMaterial[1];
+                    _flagMiniMapRenderer.material = minimapMaterialMark[1];
+                    _currentCapturingTeam = "Team2Flag";
+                    break;
+            }
+            
+            // Set the tag based on the specified team
+            gameObject.tag = teamName;
+        }
+        
         private void OnTriggerEnter(Collider other)
         {
             // Check if the entering GameObject is a player or minion
             if (other.CompareTag("Team1") || other.CompareTag("Team2"))
             {
-                if (!gameObject.CompareTag(other.tag+"Flag"))
+                _tagsInCaptureZone.Add(other.tag);
+                // Check if the entering GameObject belongs to one of the allowed teams
+                if (!_capturing && AreAllMembersSameTeam())
                 {
-                    // Check if the entering GameObject belongs to one of the allowed teams
-                    string team = other.tag;
-                    if (!_capturing || _currentCapturingTeam!=team)
+                    if (!gameObject.CompareTag(other.tag + "Flag"))
                     {
-                        // Start capturing
-                        _currentCapturingTeam = team;
+                        _currentCapturingTeam = other.tag;
                         _captureCoroutine = CaptureCoroutine();
                         StartCoroutine(_captureCoroutine);
                         Debug.Log("Capture started by team: " + _currentCapturingTeam);
                     }
-                    else
-                    {
-                        // Check if the capturing team matches the entering GameObject's team
-                        if (_currentCapturingTeam != team)
-                        {
-                            // Reset capture progress if the entering team is different
-                            StopCoroutine(_captureCoroutine);
-                            _capturing = false;
-                            _currentCapturingTeam = "";
-                            Debug.Log("Capture interrupted. Different team entered.");
-                        }
-                    }
                 }
             }
+        }
+
+        private bool AreAllMembersSameTeam()
+        {
+            return _tagsInCaptureZone.All(tag => tag == "Team1") || _tagsInCaptureZone.All(tag => tag == "Team2");
         }
         
         private void OnTriggerExit(Collider other)
         {
             // If a player or minion exits the collider, stop capturing
-            if (_capturing && (other.CompareTag("Team1") || other.CompareTag("Team2")))
+            if (other.CompareTag("Team1") || other.CompareTag("Team2"))
             {
+                _tagsInCaptureZone.Remove(other.tag);
                 // Check if the exiting GameObject is from the same team as the current capturing team
-                if (!other.CompareTag(_currentCapturingTeam))
+                if (_capturing && !AreAllMembersSameTeam())
                 {
                     StopCoroutine(_captureCoroutine);
                     _capturing = false;
-                    _currentCapturingTeam = "";
-                    Debug.Log("Capture interrupted. GameObject exited collider.");
+                    _currentCapturingTeam = ""; // Reset current capturing team
                 }
             }
         }
         
-        
-        
+        //TODO: Needs to fix when the emeny die in his range
         private void OnTriggerStay(Collider other)
         {
-            // Check if an enemy team is present within the capture zone while the flag is being captured
-            if (_capturing && (other.CompareTag("Team1") || other.CompareTag("Team2")) && !other.CompareTag(_currentCapturingTeam))
+            if (other.CompareTag("Team1") || other.CompareTag("Team2"))
             {
-                // Check if any enemy team members are present within the capture zone
-                Collider[] colliders = Physics.OverlapSphere(transform.position, transform.localScale.magnitude / 2);
-                foreach (var collider in colliders)
+                if (!_tagsInCaptureZone.Contains(other.tag))
                 {
-                    Debug.Log("Collider in range: " + collider.tag);
-                }
-                bool enemyPresent = colliders.Any(collider => collider.CompareTag("Team1") || collider.CompareTag("Team2"));
-
-                
-                // If no enemy team members are present, start the recapture process
-                if (!enemyPresent)
-                {
-                    StartCoroutine(_captureCoroutine);
-                }
-                else
-                {
-                    // Interrupt capturing if an enemy team remains within the capture zone
-                    StopCoroutine(_captureCoroutine);
-                    _capturing = false;
-                    _currentCapturingTeam = "";
-                    Debug.Log("Capture interrupted. Enemy team present.");
+                    if (!_capturing && AreAllMembersSameTeam())
+                    {
+                        _captureCoroutine = CaptureCoroutine();
+                        StartCoroutine(_captureCoroutine);
+                    }
                 }
             }
         }
@@ -122,23 +133,21 @@ namespace Gameplay
             }
 
             // Capture completed
-            Debug.Log("Flag captured by team: " + _currentCapturingTeam);
-            // Implement capture completion actions here (e.g., change flag color, award points)
             // Change flag material based on the capturing team
             if (_currentCapturingTeam == "Team1")
             {
+                gameObject.tag = "Team1Flag";
                 _flagRenderer.material = teamMaterial[0];
                 _flagMiniMapRenderer.material = minimapMaterialMark[0];
             }
             else if (_currentCapturingTeam == "Team2")
             {
+                gameObject.tag = "Team2Flag";
                 _flagRenderer.material = teamMaterial[1];
                 _flagMiniMapRenderer.material = minimapMaterialMark[1];
             }
-            gameObject.tag = _currentCapturingTeam+"Flag";
             
             _capturing = false;
-            _currentCapturingTeam = "";
         }
     }
 }

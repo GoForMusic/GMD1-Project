@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using PoolManager;
 using Static;
 using UnityEngine;
 using UnityEngine.AI;
@@ -60,7 +61,7 @@ namespace Core
         /// </summary>
         private void Die()
         {
-            if(_isDead) return;
+            if(_isDead) return; 
             _isDead = true;
 
             // Disable NavMeshAgent if it exists
@@ -77,6 +78,20 @@ namespace Core
             
             GetComponent<Animator>().SetTrigger(AnimatorParameters.Die);
             gameObject.tag = "Untagged";
+
+            StartCoroutine(DieWithDelay(10.0f));
+        }
+
+        private IEnumerator DieWithDelay(float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            
+            // Return the minion to the pool
+            MinionPoolManager minionPoolManager = FindObjectOfType<MinionPoolManager>();
+            if (minionPoolManager != null)
+            {
+                minionPoolManager.ReturnMinionToPool(gameObject);
+            }
         }
         
         /// <summary>

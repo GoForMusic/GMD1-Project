@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using Control;
+using PoolManager;
 using UnityEngine;
 
 public class SpawnMinions : MonoBehaviour
 {
-    [Header("Minion Que for team")]
+    [Header("Spawn Configuration")]
     [SerializeField]
-    private List<GameObject> _minions;
+    private List<string> _spawnConfigurations;
     
     [Header("Spawner Properties")]
     [SerializeField] private float _spawnInterval = 30.0f;
@@ -15,6 +16,9 @@ public class SpawnMinions : MonoBehaviour
 
     [SerializeField]
     private PatrolPath _patrolPath;
+    
+    // Reference to the minion pool manager
+    private MinionPoolManager _minionPoolManager;
     
     private void Start()
     {
@@ -25,6 +29,8 @@ public class SpawnMinions : MonoBehaviour
         }
         else
         {
+            _minionPoolManager = FindObjectOfType<MinionPoolManager>();
+            
             StartCoroutine(SpawnMinionsAsync());
         }
     }
@@ -33,19 +39,32 @@ public class SpawnMinions : MonoBehaviour
     {
         while (true)
         {
-            for (int i = 0; i < _minions.Count; i++)
+            foreach (var key in _spawnConfigurations)
             {
-                SpawnRegularMinions(_minions[i]);
+                GameObject minion = _minionPoolManager.GetMinionFromPool(key,transform.position, transform.rotation);
+
+                // Check if the pool size needs to be increased
+                if (minion == null)
+                {
+                    _minionPoolManager.IncreasePoolSize(key);
+                    minion = _minionPoolManager.GetMinionFromPool(key, transform.position, transform.rotation);
+                }
+                
+                if (minion != null)
+                {
+                    SpawnRegularMinions(minion);
+                }
+                
                 yield return new WaitForSeconds(_delayBetweenMinions);
             }
-
+            
             yield return new WaitForSeconds(_spawnInterval - _delayBetweenMinions);
         }
     }
 
     private void SpawnRegularMinions(GameObject minion)
     {
-        GameObject objectSpawned = Instantiate(minion, transform.position, transform.rotation);
-        objectSpawned.GetComponentInChildren<MinionAI>().patrolPath = _patrolPath;
+        minion.SetActive(true);
+        minion.GetComponentInChildren<MinionAI>().patrolPath = _patrolPath;
     }
 }
