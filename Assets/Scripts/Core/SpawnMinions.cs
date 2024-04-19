@@ -41,13 +41,16 @@ public class SpawnMinions : MonoBehaviour
         {
             foreach (var key in _spawnConfigurations)
             {
-                GameObject minion = _minionPoolManager.GetMinionFromPool(key,transform.position, transform.rotation);
+                Vector3 spawnLocation = _patrolPath.GetWaypoints()[0];
+                
+                Debug.Log("Keys?"+key);
+                GameObject minion = _minionPoolManager.GetMinionFromPool(key,spawnLocation, transform.rotation);
 
                 // Check if the pool size needs to be increased
                 if (minion == null)
                 {
                     _minionPoolManager.IncreasePoolSize(key);
-                    minion = _minionPoolManager.GetMinionFromPool(key, transform.position, transform.rotation);
+                    minion = _minionPoolManager.GetMinionFromPool(key, spawnLocation, transform.rotation);
                 }
                 
                 if (minion != null)

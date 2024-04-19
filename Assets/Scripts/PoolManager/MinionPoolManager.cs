@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 
 namespace PoolManager
@@ -7,14 +9,13 @@ namespace PoolManager
     {
         public MinionPrefabDatabase minionPrefabDatabase;
         
-        private Dictionary<string, Queue<GameObject>> _minionPools;
+        private Dictionary<string, Queue<GameObject>> _minionPools = new Dictionary<string, Queue<GameObject>>();
         private int _initialPoolSize;
         
-        private void Start()
+        private void Awake()
         {
             if (minionPrefabDatabase != null)
             {
-                _minionPools = new Dictionary<string, Queue<GameObject>>();
                 _initialPoolSize = minionPrefabDatabase.poolSize;
 
                 InitializePools(_initialPoolSize);
@@ -55,7 +56,7 @@ namespace PoolManager
                 return;
             }
 
-            int newPoolSize = _initialPoolSize * 2; // Double the pool size
+            int newPoolSize = _initialPoolSize +1; // Double the pool size
             Queue<GameObject> pool = _minionPools[key];
             GameObject prefab = minionPrefabDatabase.GetPrefabByKey(key);
 
@@ -73,27 +74,34 @@ namespace PoolManager
         
         public GameObject GetMinionFromPool(string minionType, Vector3 position, Quaternion rotation)
         {
+            
             if (!_minionPools.ContainsKey(minionType))
             {
                 Debug.LogError($"Minion type '{minionType}' not found in minionPrefabs.");
                 return null;
             }
-
-            Queue<GameObject> pool = _minionPools[minionType];
-
-            if (pool.Count == 0)
-            {
-                Debug.LogWarning($"No more minions available in the {minionType} pool.");
-                return null;
-            }
-
-            // Dequeue a minion from the pool
-            GameObject minion = pool.Dequeue();
-            minion.transform.position = position;
-            minion.transform.rotation = rotation;
-            minion.SetActive(true);
             
-            return minion;
+            Queue<GameObject> pool = _minionPools[minionType];
+            
+            // Check if there are inactive minions available in the pool
+            foreach (GameObject minion in pool)
+            {
+                if (!minion.activeSelf)
+                {
+                    minion.transform.position = position;
+                    minion.transform.rotation = rotation;
+                    minion.GetComponent<Health>().Revive();
+                    minion.SetActive(true);
+                    return minion;
+                }
+            }
+            
+            // If no inactive minions are available, instantiate a new one
+            GameObject prefab = minionPrefabDatabase.GetPrefabByKey(minionType);
+            GameObject newMinion = Instantiate(prefab, position, rotation);
+            pool.Enqueue(newMinion);
+
+            return newMinion;
         }
         
         public void ReturnMinionToPool(GameObject minion)
@@ -105,7 +113,6 @@ namespace PoolManager
             {
                 if (kvp.Value.Contains(minion))
                 {
-                    kvp.Value.Enqueue(minion);
                     break;
                 }
             }

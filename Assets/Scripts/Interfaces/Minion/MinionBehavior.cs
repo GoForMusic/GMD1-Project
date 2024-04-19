@@ -15,6 +15,11 @@ namespace Interfaces.Minion
             _followDistanceThreshold = followDistanceThreshold;
             _weaponRange = weaponRange;
         }
+
+        public void SetCurrentWaypointIndex(int newWaypoint)
+        {
+            _currentWaypointIndex = newWaypoint;
+        }
         
         public Vector3? MoveToWaypoint(PatrolPath patrolPath,Vector3 minionPosition)
         {

@@ -21,7 +21,7 @@ namespace PoolManager
         
         [SerializeField]
         public List<MinionPrefabData> minionPrefabs = new List<MinionPrefabData>();
-
+        
         public GameObject GetPrefabByKey(string key)
         {
             return minionPrefabs.Find(minionPrefabs => minionPrefabs.key == key).prefab;

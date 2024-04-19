@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71eb8b2519f041b1abded042e9238bbd, type: 3}
   m_Name: MinionPoolDatabase
   m_EditorClassIdentifier: 
-  poolSize: 4
+  poolSize: 8
   minionPrefabs:
   - key: MinionP1-Melee
     prefab: {fileID: 9003645229488387263, guid: 77017705b700c01499e33231a0fd0ed1, type: 3}

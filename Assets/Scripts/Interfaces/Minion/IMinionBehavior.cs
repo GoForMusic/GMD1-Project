@@ -29,5 +29,11 @@ namespace Interfaces.Minion
         /// <param name="fighter">The fighter component of the minion.</param>
         /// <returns>True if an enemy is detected, otherwise false.</returns>
         bool SawEnemy(Fighter fighter);
+
+        /// <summary>
+        /// Set the new current waypoint index, used when the minion is resurected.
+        /// </summary>
+        /// <param name="newWaypoint"></param>
+        void SetCurrentWaypointIndex(int newWaypoint);
     }
 }

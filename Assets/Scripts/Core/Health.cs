@@ -28,6 +28,11 @@ namespace Core
         private bool _isDead = false;
 
         /// <summary>
+        /// Keep the initial tag stored
+        /// </summary>
+        private string _initialTag;
+        
+        /// <summary>
         /// A method that will return if the player or AI is dead
         /// </summary>
         /// <returns>true or false</returns>
@@ -39,6 +44,7 @@ namespace Core
         private void Start()
         {
             _currentHealth = maxHealth;
+            _initialTag = gameObject.tag;
             UpdateHealthBar();
         }
         
@@ -56,6 +62,40 @@ namespace Core
             }
         }
 
+        /// <summary>
+        /// Revive the character after a specified delay
+        /// </summary>
+        public void Revive()
+        {
+            if (_isDead)
+            {
+                _currentHealth = maxHealth;
+                UpdateHealthBar();
+                _isDead = false;
+                
+                // Enable NavMeshAgent if it exists
+                NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
+                if (navMeshAgent != null && !navMeshAgent.enabled)
+                {
+                    navMeshAgent.enabled = true;
+                }
+                
+                // Enable the collider
+                Collider collider = GetComponent<Collider>();
+                if(collider != null)
+                    collider.enabled = true;
+                
+                // Reset the animator
+                Animator animator = GetComponent<Animator>();
+                if (animator != null)
+                {
+                    animator.Rebind();
+                }
+                
+                gameObject.tag = _initialTag; // Adjust tag as needed
+            }
+        }
+        
         /// <summary>
         /// Die animation
         /// </summary>

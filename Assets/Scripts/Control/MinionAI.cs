@@ -63,7 +63,11 @@ namespace Control
         /// </summary>
         void Update()
         {
-            if (_health.IsDead()) return;
+            if (_health.IsDead())
+            {
+                _minionBehavior.SetCurrentWaypointIndex(0);
+                return;
+            };
 
             if (!_minionBehavior.SawEnemy(_fighter))
             {
