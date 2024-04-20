@@ -2537,7 +2537,6 @@ GameObject:
   - component: {fileID: 4036477520713735564}
   - component: {fileID: 8961484810580429613}
   - component: {fileID: 7992654688837816460}
-  - component: {fileID: 3580147898646234287}
   m_Layer: 0
   m_Name: Player2
   m_TagString: Team2
@@ -2680,6 +2679,8 @@ MonoBehaviour:
   _controller: {fileID: 0}
   _playerInput: {fileID: 0}
   _camera: {fileID: 0}
+  healthBar: {fileID: 0}
+  maxHealth: 100
   _moveSpeed: 10
   _rotateSpeed: 10
   _weaponRange: 2
@@ -2698,20 +2699,6 @@ MonoBehaviour:
   dealDmg: 0.1
   timeBetweenAttack: 0.5
   noOfAttacks: 3
---- !u!114 &3580147898646234287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8869863801888229013}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fa0980ddad56dd44828125c878993c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  healthBar: {fileID: 0}
 --- !u!1 &9011807134160380661
 GameObject:
   m_ObjectHideFlags: 0

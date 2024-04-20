@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Control;
 using Core;
+using Interfaces.Stats;
 using UnityEngine;
 
 namespace PoolManager
@@ -90,7 +92,8 @@ namespace PoolManager
                 {
                     minion.transform.position = position;
                     minion.transform.rotation = rotation;
-                    minion.GetComponent<Health>().Revive();
+                    var newGameObjectTag = minion.tag;
+                    minion.GetComponent<IHealthProvider>().GetHealth().Revive(ref newGameObjectTag);
                     minion.SetActive(true);
                     return minion;
                 }

@@ -1,8 +1,14 @@
+#define MINION
+
 using Core;
 using Interfaces.Core;
 using Interfaces.Minion;
+using Interfaces.Stats;
+using PoolManager;
 using Static;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.UI;
 
 namespace Control
 {
@@ -10,9 +16,8 @@ namespace Control
     /// <summary>
     /// Handles the behavior of a minion character.
     /// </summary>
-    [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(Fighter))]
-    public class MinionAI : MonoBehaviour
+    public class MinionAI : MonoBehaviour, IHealthProvider
     {
         // Variables to set in the Inspector
         [Header("PatrolPath")]
@@ -21,13 +26,17 @@ namespace Control
         public float moveSpeed = 5f;
         public float rotationSpeed = 5f;
         public float weaponRange = 2f;
+        public float maxHealth = 100f;
+        [Header("MinionUI")]
+        [SerializeField]
+        private Slider healthBar;
         [Header("Player")]
         public float followDistanceThreshold = 5f;
         
         private Animator _animator;
         //Other Core Elements
         private Fighter _fighter;
-        private Health _health;
+        private IHealth _health;
         
         
         //Interface
@@ -37,12 +46,25 @@ namespace Control
         /// <summary>
         /// Initializes references and components.
         /// </summary>
-        void Start()
+        void Awake()
         {
             _animator = GetComponent<Animator>();
             _fighter = GetComponent<Fighter>();
             _fighter.SetWeaponRange(weaponRange);
-            _health = GetComponent<Health>();
+            _health = new HealthMinion(healthBar,
+                maxHealth,
+                gameObject.tag,
+                GetComponent<NavMeshAgent>(),
+                GetComponent<Collider>(),
+                _animator,
+                FindObjectOfType<MinionPoolManager>(),
+                this);
+            _movement = new Movement();
+            _minionBehavior = new MinionBehavior(followDistanceThreshold,weaponRange);
+        }
+
+        private void Start()
+        {
             // Make sure there is a PatrolPath assigned
             if (patrolPath == null)
             {
@@ -53,11 +75,8 @@ namespace Control
             
             // Set the minion's position to the first waypoint
             transform.position = patrolPath.GetWaypoints()[0];
-            
-            _minionBehavior = new MinionBehavior(followDistanceThreshold,weaponRange);
-            _movement = new Movement();
         }
-        
+
         /// <summary>
         /// Updates the minion's behavior based on its current state.
         /// </summary>
@@ -132,6 +151,10 @@ namespace Control
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             _animator.SetFloat(AnimatorParameters.MovementSpeed, moveSpeed);
         }
-        
+
+        public IHealth GetHealth()
+        {
+            return _health;
+        }
     }
 }

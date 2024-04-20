@@ -1,8 +1,12 @@
+#define PLAYER
+
 using Core;
 using Interfaces.Core;
+using Interfaces.Stats;
 using Static;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace Control
 {
@@ -10,8 +14,7 @@ namespace Control
     /// Controls player movement and combat.
     /// </summary>
     [RequireComponent(typeof(Fighter))]
-    [RequireComponent(typeof(Health))]
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IHealthProvider
     {
         [Header("References")] [SerializeField]
         private Animator _animator;
@@ -19,13 +22,20 @@ namespace Control
         [SerializeField] private PlayerInput _playerInput;
         [SerializeField] private Camera _camera;
         
+        [Header("PlayerUI")]
+        [SerializeField]
+        private Slider healthBar;
+
+        [Header("Player starts")] 
+        public float maxHealth = 100f;
+        
         [Header("Movement")] 
         [SerializeField] private float _moveSpeed = 25f;
         [SerializeField] private float _rotateSpeed = 10f;
         [SerializeField] private float _weaponRange = 3f;
         //Other Core Elements
         private Fighter _fighter;
-        private Health _health;
+        private IHealth _health;
         
         //Interfaces
         private IMovement _movement;
@@ -40,7 +50,7 @@ namespace Control
             _playerInput = GetComponent<PlayerInput>();
             _fighter = GetComponent<Fighter>();
             _fighter.SetWeaponRange(_weaponRange);
-            _health = GetComponent <Health>();
+            _health = new HealthPlayer(healthBar, maxHealth, gameObject.tag, GetComponent<Collider>(), _animator);
             
             //Init Interface
             _movement = new Movement();
@@ -66,6 +76,11 @@ namespace Control
             // Perform attack behavior and update animator
             _fighter.AttackBehavior(_animator, _playerInput.actions["Fire"].ReadValue<float>());
             _animator.SetFloat(AnimatorParameters.MovementSpeed, movement.magnitude);
+        }
+        
+        public IHealth GetHealth()
+        {
+            return _health;
         }
     }
 }

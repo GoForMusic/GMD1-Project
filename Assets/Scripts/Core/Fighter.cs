@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Interfaces.Stats;
 using Static;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -58,7 +59,7 @@ namespace Core
         {
             if (_target != null)
             {
-                Health enemyHealth = _target.GetComponent<Health>();
+                IHealth enemyHealth = _target.GetComponent<IHealth>();
                 if (enemyHealth != null && enemyHealth.IsDead())
                 {
                     // Clear the target if it's dead
@@ -98,8 +99,9 @@ namespace Core
 
             if (Vector3.Distance(transform.position, _target.transform.position) < 2.0f)
             {
-                Health enemyHealth = _target.GetComponent<Health>();
-                enemyHealth.DealDamage(dealDmg);
+                IHealth enemyHealth = _target.GetComponent<IHealthProvider>().GetHealth();
+                var newTag = gameObject.tag;
+                enemyHealth.DealDamage(dealDmg, ref newTag,gameObject);
             }
         }
 
