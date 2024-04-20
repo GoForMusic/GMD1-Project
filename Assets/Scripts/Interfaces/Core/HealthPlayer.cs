@@ -3,8 +3,11 @@ using Static;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Interfaces.Stats
+namespace Interfaces.Core
 {
+    /// <summary>
+    /// Class for managing the health of a player character.
+    /// </summary>
     public class HealthPlayer : IHealth
     {
         private Slider _healthBar;
@@ -17,6 +20,14 @@ namespace Interfaces.Stats
         private Collider _collider;
         private Animator _animator;
         
+        /// <summary>
+        /// Constructor for initializing player health.
+        /// </summary>
+        /// <param name="healthBar">The slider UI element representing the health bar.</param>
+        /// <param name="maxHealth">The maximum health value.</param>
+        /// <param name="gameObjectTag">The tag of the player character's game object.</param>
+        /// <param name="collider">The collider component of the player character.</param>
+        /// <param name="animator">The animator component of the player character.</param>
         public HealthPlayer(Slider healthBar, 
             float maxHealth,
             string gameObjectTag,
@@ -70,6 +81,11 @@ namespace Interfaces.Stats
             }
         }
         
+        /// <summary>
+        /// Kills the player character.
+        /// </summary>
+        /// <param name="gameObjectTag">The tag of the player character's game object.</param>
+        /// <param name="gameObject">The player character's game object.</param>
         private void Die(ref string gameObjectTag, GameObject gameObject)
         {
             if(_isDead) return; 

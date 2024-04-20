@@ -5,8 +5,11 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-namespace Interfaces.Stats
+namespace Interfaces.Core
 {
+    /// <summary>
+    /// Class for managing the health of a minion character.
+    /// </summary>
     public class HealthMinion : IHealth
     {
         
@@ -27,6 +30,17 @@ namespace Interfaces.Stats
         //UNIQ for minion
         private MinionPoolManager _minionPoolManager;
         
+        /// <summary>
+        /// Constructor for initializing minion health.
+        /// </summary>
+        /// <param name="healthBar">The health bar UI slider.</param>
+        /// <param name="maxHealth">The maximum health of the minion.</param>
+        /// <param name="gameObjectTag">The initial tag of the minion's game object.</param>
+        /// <param name="navMeshAgent">The NavMeshAgent component of the minion.</param>
+        /// <param name="collider">The Collider component of the minion's game object.</param>
+        /// <param name="animator">The Animator component of the minion's game object.</param>
+        /// <param name="minionPoolManager">The MinionPoolManager for managing the minion's pool.</param>
+        /// <param name="coroutineRunner">A MonoBehaviour used for running coroutines.</param>
         public HealthMinion(Slider healthBar, 
             float maxHealth,
             string gameObjectTag,
@@ -91,6 +105,11 @@ namespace Interfaces.Stats
             }
         }
 
+        /// <summary>
+        /// Kills the player character.
+        /// </summary>
+        /// <param name="gameObjectTag">The tag of the player character's game object.</param>
+        /// <param name="gameObject">The player character's game object.</param>
         private void Die(ref string gameObjectTag, GameObject gameObject)
         {
             if(_isDead) return; 
@@ -112,6 +131,9 @@ namespace Interfaces.Stats
             _coroutineRunner.StartCoroutine(DieWithDelay(10.0f,gameObject)); 
         }
         
+        /// <summary>
+        /// Coroutine to return the minion to the pool after a delay.
+        /// </summary>
         private IEnumerator DieWithDelay(float delay, GameObject gameObject)
         {
             yield return new WaitForSeconds(delay);

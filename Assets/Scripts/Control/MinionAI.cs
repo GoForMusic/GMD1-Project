@@ -1,9 +1,6 @@
-#define MINION
-
 using Core;
+using Interfaces.Control;
 using Interfaces.Core;
-using Interfaces.Minion;
-using Interfaces.Stats;
 using PoolManager;
 using Static;
 using UnityEngine;
@@ -46,11 +43,12 @@ namespace Control
         /// <summary>
         /// Initializes references and components.
         /// </summary>
-        void Awake()
+        private void Awake()
         {
             _animator = GetComponent<Animator>();
             _fighter = GetComponent<Fighter>();
             _fighter.SetWeaponRange(weaponRange);
+            // Initialize health component with Minion-specific parameters
             _health = new HealthMinion(healthBar,
                 maxHealth,
                 gameObject.tag,
@@ -59,6 +57,8 @@ namespace Control
                 _animator,
                 FindObjectOfType<MinionPoolManager>(),
                 this);
+            
+            // Initialize other interfaces
             _movement = new Movement();
             _minionBehavior = new MinionBehavior(followDistanceThreshold,weaponRange);
         }
@@ -151,7 +151,7 @@ namespace Control
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
             _animator.SetFloat(AnimatorParameters.MovementSpeed, moveSpeed);
         }
-
+        
         public IHealth GetHealth()
         {
             return _health;

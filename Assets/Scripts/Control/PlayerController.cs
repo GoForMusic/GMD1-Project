@@ -1,8 +1,6 @@
-#define PLAYER
-
 using Core;
+using Interfaces.Control;
 using Interfaces.Core;
-using Interfaces.Stats;
 using Static;
 using UnityEngine;
 using UnityEngine.InputSystem;

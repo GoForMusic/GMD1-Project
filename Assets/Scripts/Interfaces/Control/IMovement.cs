@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Interfaces.Core
+namespace Interfaces.Control
 {
     /// <summary>
     /// Interface for movement behavior.

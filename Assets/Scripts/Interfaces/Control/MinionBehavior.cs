@@ -2,7 +2,7 @@ using Control;
 using Core;
 using UnityEngine;
 
-namespace Interfaces.Minion
+namespace Interfaces.Control
 {
     public class MinionBehavior : IMinionBehavior
     {

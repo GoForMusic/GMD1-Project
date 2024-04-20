@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Interfaces.Core
+namespace Interfaces.Control
 {
     public class Movement : IMovement
     {
