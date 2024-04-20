@@ -101,6 +101,10 @@ namespace Control
             return _health;
         }
         
+        /// <summary>
+        /// Triggered when another collider stays inside the trigger collider.
+        /// </summary>
+        /// <param name="other">The collider entering the trigger.</param>
         private void OnTriggerStay(Collider other)
         {
             if (other.gameObject.CompareTag(_fighter.GetEnemyTag()))
@@ -109,6 +113,9 @@ namespace Control
             }
         }
 
+        /// <summary>
+        /// Triggered when the minion attacks.
+        /// </summary>
         private void Hit()
         {
             _fighter.Hit(transform.position);

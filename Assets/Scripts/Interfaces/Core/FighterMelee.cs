@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Interfaces.Core
 {
+    /// <summary>
+    /// Implementation of the IFighter interface for melee fighters.
+    /// </summary>
     public class FighterMelee : IFighter
     {
         private string _enemyTeamTag;
@@ -14,6 +17,14 @@ namespace Interfaces.Core
         private GameObject _target;
         private float _weaponAttackRange;
         
+        /// <summary>
+        /// Constructor for creating a melee fighter.
+        /// </summary>
+        /// <param name="yourTag">The tag of the fighter's team.</param>
+        /// <param name="dealDmg">The amount of damage the fighter deals.</param>
+        /// <param name="timeBetweenAttack">The time between each attack.</param>
+        /// <param name="noOfAttacks">The number of attacks the fighter has.</param>
+        /// <param name="weaponAttackRange">The attack range of the fighter's weapon.</param>
         public FighterMelee(string yourTag,float dealDmg, float timeBetweenAttack, int noOfAttacks, float weaponAttackRange)
         {
             if (yourTag.Equals("Team1"))

@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Control
+namespace Core
 {
     /// <summary>
     /// A class that is creating a patrol path on the editor
