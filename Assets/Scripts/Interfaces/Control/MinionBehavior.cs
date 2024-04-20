@@ -1,5 +1,4 @@
 using Control;
-using Core;
 using UnityEngine;
 
 namespace Interfaces.Control
@@ -34,15 +33,15 @@ namespace Interfaces.Control
             return targetPosition;
         }
 
-        public Vector3? MoveToEnemy(Fighter fighter, Vector3 minionPosition) 
+        public Vector3? MoveToEnemy(GameObject enemyTarget, Vector3 minionPosition) 
         {
-            if (fighter.GetEnemyTarget() == null)
+            if (enemyTarget == null)
             {
                 // No enemy detected
                 return null;
             }
 
-            float distanceToEnemy = Vector3.Distance(minionPosition, fighter.GetEnemyTarget().transform.position);
+            float distanceToEnemy = Vector3.Distance(minionPosition, enemyTarget.transform.position);
 
             if (distanceToEnemy > _followDistanceThreshold)
             {
@@ -57,13 +56,13 @@ namespace Interfaces.Control
             }
 
             // Move towards the enemy position
-            Vector3 targetPosition = fighter.GetEnemyTarget().transform.position;
+            Vector3 targetPosition = enemyTarget.transform.position;
             return targetPosition;
         }
 
-        public bool SawEnemy(Fighter fighter)
+        public bool SawEnemy(GameObject enemyTarget)
         {
-            if (fighter.GetEnemyTarget() != null) return true;
+            if (enemyTarget != null) return true;
             else return false;
         }
     }

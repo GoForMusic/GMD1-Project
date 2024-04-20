@@ -55,7 +55,7 @@ namespace Interfaces.Core
             UpdateHealthBar();
             if (_currentHealth == 0)
             {
-                Die(ref gameObjectTag,gameObject);
+                Die(ref gameObjectTag);
             }
         }
 
@@ -86,7 +86,7 @@ namespace Interfaces.Core
         /// </summary>
         /// <param name="gameObjectTag">The tag of the player character's game object.</param>
         /// <param name="gameObject">The player character's game object.</param>
-        private void Die(ref string gameObjectTag, GameObject gameObject)
+        private void Die(ref string gameObjectTag)
         {
             if(_isDead) return; 
             _isDead = true;

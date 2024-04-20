@@ -1,4 +1,3 @@
-using Core;
 using Interfaces.Control;
 using Interfaces.Core;
 using PoolManager;
@@ -13,7 +12,6 @@ namespace Control
     /// <summary>
     /// Handles the behavior of a minion character.
     /// </summary>
-    [RequireComponent(typeof(Fighter))]
     public class MinionAI : MonoBehaviour, IHealthProvider
     {
         // Variables to set in the Inspector
@@ -22,21 +20,24 @@ namespace Control
         [Header("Minion Stats")]
         public float moveSpeed = 5f;
         public float rotationSpeed = 5f;
-        public float weaponRange = 2f;
         public float maxHealth = 100f;
+        public float followDistanceThreshold = 5f;
+        public float dealDmg = 10f;
+        public float timeBetweenAttack = 1f;
+        public int noOfAttacks = 2;
+        public float weaponRange = 2f;
+        [SerializeField]
+        private AttackType attackType;
+        
         [Header("MinionUI")]
         [SerializeField]
         private Slider healthBar;
-        [Header("Player")]
-        public float followDistanceThreshold = 5f;
         
         private Animator _animator;
+        
         //Other Core Elements
-        private Fighter _fighter;
+        private IFighter _fighter;
         private IHealth _health;
-        
-        
-        //Interface
         private IMinionBehavior _minionBehavior;
         private IMovement _movement;
         
@@ -46,8 +47,20 @@ namespace Control
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-            _fighter = GetComponent<Fighter>();
-            _fighter.SetWeaponRange(weaponRange);
+            // Determine which attack strategy to use based on the selected attack type
+            switch (attackType)
+            {
+                case AttackType.Melee:
+                    _fighter = new FighterMelee(gameObject.tag,dealDmg,timeBetweenAttack,noOfAttacks,weaponRange);
+                    break;
+                case AttackType.Range:
+                    _fighter = new FighterRange(gameObject.tag,dealDmg,timeBetweenAttack,noOfAttacks,weaponRange);
+                    break;
+                default:
+                    Debug.LogError("Unknown attack type!");
+                    break;
+            }
+            
             // Initialize health component with Minion-specific parameters
             _health = new HealthMinion(healthBar,
                 maxHealth,
@@ -58,9 +71,6 @@ namespace Control
                 FindObjectOfType<MinionPoolManager>(),
                 this);
             
-            // Initialize other interfaces
-            _movement = new Movement();
-            _minionBehavior = new MinionBehavior(followDistanceThreshold,weaponRange);
         }
 
         private void Start()
@@ -75,6 +85,9 @@ namespace Control
             
             // Set the minion's position to the first waypoint
             transform.position = patrolPath.GetWaypoints()[0];
+            // Initialize other interfaces
+            _movement = new Movement();
+            _minionBehavior = new MinionBehavior(followDistanceThreshold,weaponRange);
         }
 
         /// <summary>
@@ -88,7 +101,17 @@ namespace Control
                 return;
             };
 
-            if (!_minionBehavior.SawEnemy(_fighter))
+            if (_fighter.GetEnemyTarget() != null)
+            {
+                IHealth enemyHealth = _fighter.GetEnemyTarget().GetComponent<IHealthProvider>().GetHealth();
+                if (enemyHealth != null && enemyHealth.IsDead())
+                {
+                    // Clear the target if it's dead
+                    _fighter.SetEnemyTarger(null);
+                }
+            }
+            
+            if (!_minionBehavior.SawEnemy(_fighter.GetEnemyTarget()))
             {
                 MoveToWaypoint();
             }
@@ -116,7 +139,7 @@ namespace Control
         /// </summary>
         private void MoveToEnemy()
         {
-            Vector3? targetPosition = _minionBehavior.MoveToEnemy(_fighter, transform.position);
+            Vector3? targetPosition = _minionBehavior.MoveToEnemy(_fighter.GetEnemyTarget(), transform.position);
             if (targetPosition != null)
             {
                 RotateTowards(_fighter.GetEnemyTarget().transform.position);
@@ -155,6 +178,19 @@ namespace Control
         public IHealth GetHealth()
         {
             return _health;
+        }
+        
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.CompareTag(_fighter.GetEnemyTag()))
+            {
+                _fighter.SetEnemyTarger(other.gameObject);
+            }
+        }
+
+        private void Hit()
+        {
+            _fighter.Hit(transform.position);
         }
     }
 }

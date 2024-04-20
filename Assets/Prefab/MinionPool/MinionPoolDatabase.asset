@@ -20,3 +20,9 @@ MonoBehaviour:
   - key: MinionP2-Melee
     prefab: {fileID: 9003645229488387263, guid: f08c1bffdcdc6dd49ad0e24ac9705b00, type: 3}
     team: 2
+  - key: MinionP1-Range
+    prefab: {fileID: 6446569360779639238, guid: 714e2cf5c15d5c9469abd705ce10bad7, type: 3}
+    team: 1
+  - key: MinionP2-Range
+    prefab: {fileID: 6446569360779639238, guid: 4034d38a4da4b954894a404279276157, type: 3}
+    team: 2

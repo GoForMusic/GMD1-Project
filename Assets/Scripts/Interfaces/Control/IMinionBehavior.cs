@@ -1,5 +1,4 @@
 using Control;
-using Core;
 using UnityEngine;
 
 namespace Interfaces.Control
@@ -19,16 +18,16 @@ namespace Interfaces.Control
         /// <summary>
         /// Moves the minion towards the enemy target.
         /// </summary>
-        /// <param name="fighter">The fighter component of the minion.</param>
+        /// <param name="enemyTarget">The enemy.</param>
         /// <param name="minionPosition">The current position of the minion.</param>
         /// <returns>The position of the enemy target, or null if no target is available or within range.</returns>
-        Vector3? MoveToEnemy(Fighter fighter,Vector3 minionPosition);
+        Vector3? MoveToEnemy(GameObject enemyTarget,Vector3 minionPosition);
         /// <summary>
         /// Checks if the minion has detected an enemy.
         /// </summary>
-        /// <param name="fighter">The fighter component of the minion.</param>
+        /// <param name="enemyTarget">The enemy</param>
         /// <returns>True if an enemy is detected, otherwise false.</returns>
-        bool SawEnemy(Fighter fighter);
+        bool SawEnemy(GameObject enemyTarget);
 
         /// <summary>
         /// Set the new current waypoint index, used when the minion is resurected.

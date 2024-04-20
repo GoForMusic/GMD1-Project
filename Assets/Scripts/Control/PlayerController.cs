@@ -1,4 +1,3 @@
-using Core;
 using Interfaces.Control;
 using Interfaces.Core;
 using Static;
@@ -11,31 +10,32 @@ namespace Control
     /// <summary>
     /// Controls player movement and combat.
     /// </summary>
-    [RequireComponent(typeof(Fighter))]
     public class PlayerController : MonoBehaviour, IHealthProvider
     {
         [Header("References")] [SerializeField]
         private Animator _animator;
-        [SerializeField] private CharacterController _controller;
-        [SerializeField] private PlayerInput _playerInput;
+        private CharacterController _controller;
+        private PlayerInput _playerInput;
         [SerializeField] private Camera _camera;
         
         [Header("PlayerUI")]
         [SerializeField]
         private Slider healthBar;
-
-        [Header("Player starts")] 
-        public float maxHealth = 100f;
         
-        [Header("Movement")] 
+        [Header("Player Stats")] 
         [SerializeField] private float _moveSpeed = 25f;
         [SerializeField] private float _rotateSpeed = 10f;
-        [SerializeField] private float _weaponRange = 3f;
-        //Other Core Elements
-        private Fighter _fighter;
-        private IHealth _health;
+        [SerializeField] private float _weaponRange = 2f;
+        public float maxHealth = 100f;
+        public float dealDmg = 50f;
+        public float timeBetweenAttack = 0.5f;
+        public int noOfAttacks = 3;
+        [SerializeField]
+        private AttackType attackType;
         
-        //Interfaces
+        //Other Core Elements
+        private IFighter _fighter;
+        private IHealth _health;
         private IMovement _movement;
         
         /// <summary>
@@ -46,8 +46,18 @@ namespace Control
             _animator = GetComponent<Animator>();
             _controller = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
-            _fighter = GetComponent<Fighter>();
-            _fighter.SetWeaponRange(_weaponRange);
+            switch (attackType)
+            {
+                case AttackType.Melee:
+                    _fighter = new FighterMelee(gameObject.tag,dealDmg,timeBetweenAttack,noOfAttacks,_weaponRange);
+                    break;
+                case AttackType.Range:
+                    _fighter = new FighterRange(gameObject.tag,dealDmg,timeBetweenAttack,noOfAttacks,_weaponRange);
+                    break;
+                default:
+                    Debug.LogError("Unknown attack type!");
+                    break;
+            }
             _health = new HealthPlayer(healthBar, maxHealth, gameObject.tag, GetComponent<Collider>(), _animator);
             
             //Init Interface
@@ -61,6 +71,16 @@ namespace Control
         {
             if (_health.IsDead()) return;
 
+            if (_fighter.GetEnemyTarget() != null)
+            {
+                IHealth enemyHealth = _fighter.GetEnemyTarget().GetComponent<IHealthProvider>().GetHealth();
+                if (enemyHealth != null && enemyHealth.IsDead())
+                {
+                    // Clear the target if it's dead
+                    _fighter.SetEnemyTarger(null);
+                }
+            }
+            
             Vector2 movement = _playerInput.actions["Move"].ReadValue<Vector2>();
 
             // Call Move and Rotate methods from the IMovement interface
@@ -79,6 +99,19 @@ namespace Control
         public IHealth GetHealth()
         {
             return _health;
+        }
+        
+        private void OnTriggerStay(Collider other)
+        {
+            if (other.gameObject.CompareTag(_fighter.GetEnemyTag()))
+            {
+                _fighter.SetEnemyTarger(other.gameObject);
+            }
+        }
+
+        private void Hit()
+        {
+            _fighter.Hit(transform.position);
         }
     }
 }

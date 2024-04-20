@@ -112,7 +112,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9003645229488387249}
   - component: {fileID: 9003645229488387248}
-  - component: {fileID: 985701892885357762}
   - component: {fileID: 6188176532664778275}
   - component: {fileID: 4313716563213463558}
   - component: {fileID: 6226198795422072174}
@@ -163,21 +162,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &985701892885357762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9003645229488387263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c5fbd5ec86740dba2c91289876fdabd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dealDmg: 10
-  timeBetweenAttack: 1
-  noOfAttacks: 2
 --- !u!114 &6188176532664778275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,10 +177,14 @@ MonoBehaviour:
   patrolPath: {fileID: 0}
   moveSpeed: 5
   rotationSpeed: 5
-  weaponRange: 2
   maxHealth: 100
-  healthBar: {fileID: 8854296069528768973}
   followDistanceThreshold: 5
+  dealDmg: 10
+  timeBetweenAttack: 0.5
+  noOfAttacks: 2
+  weaponRange: 2
+  attackType: 0
+  healthBar: {fileID: 8854296069528768973}
 --- !u!54 &4313716563213463558
 Rigidbody:
   m_ObjectHideFlags: 0
