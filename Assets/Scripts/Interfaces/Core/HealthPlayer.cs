@@ -31,6 +31,7 @@ namespace Interfaces.Core
         /// <param name="gameObjectTag">The tag of the player character's game object.</param>
         /// <param name="collider">The collider component of the player character.</param>
         /// <param name="animator">The animator component of the player character.</param>
+        /// <param name="controller">The animator component of the player controller</param>
         /// <param name="originMonoBehaviour">A MonoBehaviour used for running coroutines.</param>
         /// <param name="reviveDelay">Delay for revive coroutine</param>
         /// <param name="respawnPosition">S</param>
