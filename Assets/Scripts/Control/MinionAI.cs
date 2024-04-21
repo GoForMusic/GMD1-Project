@@ -70,7 +70,8 @@ namespace Control
                 GetComponent<Collider>(),
                 _animator,
                 FindObjectOfType<MinionPoolManager>(),
-                this);
+                this,
+                10f);
             
         }
 

@@ -84,7 +84,7 @@ namespace Interfaces.Core
                 IHealth enemyHealth = _target.GetComponent<IHealthProvider>().GetHealth();
                 var newTag = _target.tag;
                 enemyHealth.DealDamage(_dealDmg, ref newTag,_target);
-                _target.gameObject.tag = newTag;
+                _target.tag = newTag;
             }
         }
     }

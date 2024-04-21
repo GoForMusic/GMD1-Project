@@ -23,13 +23,14 @@ namespace Interfaces.Core
         private NavMeshAgent _navMeshAgent;
         private Collider _collider;
         private Animator _animator;
+        private float _reviveDelay;
+        
 
-
-        private MonoBehaviour _coroutineRunner; // Reference to a MonoBehaviour for coroutine running
+        private MonoBehaviour _originMonoBehaviour; // Reference to a MonoBehaviour for coroutine running
 
         //UNIQ for minion
         private MinionPoolManager _minionPoolManager;
-        
+
         /// <summary>
         /// Constructor for initializing minion health.
         /// </summary>
@@ -40,14 +41,17 @@ namespace Interfaces.Core
         /// <param name="collider">The Collider component of the minion's game object.</param>
         /// <param name="animator">The Animator component of the minion's game object.</param>
         /// <param name="minionPoolManager">The MinionPoolManager for managing the minion's pool.</param>
-        /// <param name="coroutineRunner">A MonoBehaviour used for running coroutines.</param>
+        /// <param name="originMonoBehaviour">A MonoBehaviour used for running coroutines.</param>
+        /// <param name="reviveDelay">Delay for revive coroutine</param>
         public HealthMinion(Slider healthBar, 
             float maxHealth,
             string gameObjectTag,
             NavMeshAgent navMeshAgent, 
             Collider collider,
             Animator animator,
-            MinionPoolManager minionPoolManager,MonoBehaviour coroutineRunner)
+            MinionPoolManager minionPoolManager,
+            MonoBehaviour originMonoBehaviour,
+            float reviveDelay)
         {
             _healthBar = healthBar;
             _currentHealth = maxHealth;
@@ -57,7 +61,8 @@ namespace Interfaces.Core
             _collider = collider;
             _animator = animator;
             _minionPoolManager = minionPoolManager;
-            _coroutineRunner = coroutineRunner;
+            _originMonoBehaviour = originMonoBehaviour;
+            _reviveDelay = reviveDelay;
             
             UpdateHealthBar();
         }
@@ -128,15 +133,15 @@ namespace Interfaces.Core
             _animator.SetTrigger(AnimatorParameters.Die);
             gameObjectTag = "Untagged";
 
-            _coroutineRunner.StartCoroutine(DieWithDelay(10.0f,gameObject)); 
+            _originMonoBehaviour.StartCoroutine(DieWithDelay(gameObject)); 
         }
         
         /// <summary>
         /// Coroutine to return the minion to the pool after a delay.
         /// </summary>
-        private IEnumerator DieWithDelay(float delay, GameObject gameObject)
+        private IEnumerator DieWithDelay(GameObject gameObject)
         {
-            yield return new WaitForSeconds(delay);
+            yield return new WaitForSeconds(_reviveDelay);
             
             // Return the minion to the pool
             if (_minionPoolManager != null)

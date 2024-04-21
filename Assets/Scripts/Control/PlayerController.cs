@@ -1,3 +1,4 @@
+using System;
 using Interfaces.Control;
 using Interfaces.Core;
 using Static;
@@ -37,12 +38,15 @@ namespace Control
         private IFighter _fighter;
         private IHealth _health;
         private IMovement _movement;
+
+        private Vector3 _sp;
         
         /// <summary>
         /// Initializes references and interfaces.
         /// </summary>
         void Start()
         {
+            _sp = transform.position;
             _animator = GetComponent<Animator>();
             _controller = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
@@ -58,7 +62,16 @@ namespace Control
                     Debug.LogError("Unknown attack type!");
                     break;
             }
-            _health = new HealthPlayer(healthBar, maxHealth, gameObject.tag, GetComponent<Collider>(), _animator);
+            
+            _health = new HealthPlayer(healthBar,
+                maxHealth,
+                gameObject.tag,
+                GetComponent<Collider>(),
+                _animator,
+                _controller,
+                this,
+                10f,
+                _sp);
             
             //Init Interface
             _movement = new Movement();
@@ -69,8 +82,11 @@ namespace Control
         /// </summary>
         void Update()
         {
-            if (_health.IsDead()) return;
-
+            if (_health.IsDead())
+            {
+                return;
+            }
+            
             if (_fighter.GetEnemyTarget() != null)
             {
                 IHealth enemyHealth = _fighter.GetEnemyTarget().GetComponent<IHealthProvider>().GetHealth();
