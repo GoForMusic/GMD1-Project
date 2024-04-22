@@ -31,7 +31,7 @@ namespace Interfaces.Core
         private MonoBehaviour _originMonoBehaviour; // Reference to a MonoBehaviour for coroutine running
 
         //UNIQ for minion
-        private MinionPoolManager _minionPoolManager;
+        private ObjectPoolManager _objectPoolManager;
 
         /// <summary>
         /// Constructor for initializing minion health.
@@ -42,7 +42,7 @@ namespace Interfaces.Core
         /// <param name="navMeshAgent">The NavMeshAgent component of the minion.</param>
         /// <param name="collider">The Collider component of the minion's game object.</param>
         /// <param name="animator">The Animator component of the minion's game object.</param>
-        /// <param name="minionPoolManager">The MinionPoolManager for managing the minion's pool.</param>
+        /// <param name="objectPoolManager">The MinionPoolManager for managing the minion's pool.</param>
         /// <param name="originMonoBehaviour">A MonoBehaviour used for running coroutines.</param>
         /// <param name="reviveDelay">Delay for revive coroutine</param>
         public HealthMinion(Slider healthBar, 
@@ -51,7 +51,7 @@ namespace Interfaces.Core
             NavMeshAgent navMeshAgent, 
             Collider collider,
             Animator animator,
-            MinionPoolManager minionPoolManager,
+            ObjectPoolManager objectPoolManager,
             MonoBehaviour originMonoBehaviour,
             float reviveDelay)
         {
@@ -62,7 +62,7 @@ namespace Interfaces.Core
             _navMeshAgent = navMeshAgent;
             _collider = collider;
             _animator = animator;
-            _minionPoolManager = minionPoolManager;
+            _objectPoolManager = objectPoolManager;
             _originMonoBehaviour = originMonoBehaviour;
             _reviveDelay = reviveDelay;
             
@@ -149,9 +149,9 @@ namespace Interfaces.Core
             yield return new WaitForSeconds(_reviveDelay);
             
             // Return the minion to the pool
-            if (_minionPoolManager != null)
+            if (_objectPoolManager != null)
             {
-                _minionPoolManager.ReturnMinionToPool(gameObject);
+                _objectPoolManager.ReturnObjectToPool(gameObject);
             }
         }
         

@@ -184,6 +184,7 @@ MonoBehaviour:
   noOfAttacks: 2
   weaponRange: 2
   attackType: 0
+  projectileSpawnPoint: {fileID: 0}
   healthBar: {fileID: 8854296069528768973}
 --- !u!54 &4313716563213463558
 Rigidbody:
@@ -425,7 +426,7 @@ GameObject:
   - component: {fileID: 9003645230076235416}
   m_Layer: 0
   m_Name: FootmanMesh
-  m_TagString: Untagged
+  m_TagString: Team1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

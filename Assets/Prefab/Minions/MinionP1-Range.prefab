@@ -259,6 +259,37 @@ Transform:
   - {fileID: 625595401501758386}
   m_Father: {fileID: 2727711130059712961}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3301493365764741101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9086984865057713092}
+  m_Layer: 0
+  m_Name: MuzzleShot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9086984865057713092
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3301493365764741101}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6315529592488861731}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3345609558353378942
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,10 +495,11 @@ MonoBehaviour:
   maxHealth: 100
   followDistanceThreshold: 10
   dealDmg: 10
-  timeBetweenAttack: 1
+  timeBetweenAttack: 0.75
   noOfAttacks: 2
-  weaponRange: 2
+  weaponRange: 10
   attackType: 1
+  projectileSpawnPoint: {fileID: 9086984865057713092}
   healthBar: {fileID: 2036055037076339441}
 --- !u!54 &548492282986754738
 Rigidbody:
@@ -537,7 +569,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 5
+  m_Radius: 7
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6550378567083385105
 GameObject:
@@ -662,7 +694,8 @@ Transform:
   m_LocalPosition: {x: -50.983036, y: -54.37775, z: -77.06237}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 9086984865057713092}
   m_Father: {fileID: 2727711130059712961}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7446861969487570145
@@ -868,7 +901,7 @@ GameObject:
   - component: {fileID: 1689042558322934358}
   m_Layer: 0
   m_Name: LichMesh
-  m_TagString: Untagged
+  m_TagString: Team1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

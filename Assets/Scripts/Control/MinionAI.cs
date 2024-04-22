@@ -1,3 +1,5 @@
+using System;
+using System.ComponentModel;
 using Core;
 using Interfaces.Control;
 using Interfaces.Core;
@@ -27,8 +29,11 @@ namespace Control
         public float timeBetweenAttack = 1f;
         public int noOfAttacks = 2;
         public float weaponRange = 2f;
+        [Header("Only used for range minions")]
         [SerializeField]
         private AttackType attackType;
+        [SerializeField] 
+        private Transform projectileSpawnPoint;
         
         [Header("MinionUI")]
         [SerializeField]
@@ -57,7 +62,12 @@ namespace Control
                     _fighter = new FighterMelee(gameObject.tag,dealDmg,timeBetweenAttack,noOfAttacks,weaponRange);
                     break;
                 case AttackType.Range:
-                    _fighter = new FighterRange(gameObject.tag,dealDmg,timeBetweenAttack,noOfAttacks,weaponRange);
+                    _fighter = new FighterRange(gameObject.tag,
+                        dealDmg,timeBetweenAttack,
+                        noOfAttacks,
+                        weaponRange,
+                        FindObjectOfType<ObjectPoolManager>(),
+                        projectileSpawnPoint);
                     break;
                 default:
                     Debug.LogError("Unknown attack type!");
@@ -71,7 +81,7 @@ namespace Control
                 _navMeshAgent,
                 GetComponent<Collider>(),
                 _animator,
-                FindObjectOfType<MinionPoolManager>(),
+                FindObjectOfType<ObjectPoolManager>(),
                 this,
                 10f);
             
@@ -153,6 +163,7 @@ namespace Control
                 }
                 else
                 {
+                    _navMeshAgent.isStopped = true;
                     _animator.SetFloat(AnimatorParameters.MovementSpeed, 0);
                     _fighter.AttackBehavior(_animator, 1f);
                 }
@@ -179,6 +190,7 @@ namespace Control
         /// <param name="targetPosition">The position to move towards.</param>
         private void MoveTowards(Vector3 targetPosition)
         {
+            _navMeshAgent.isStopped = false;
             _navMeshAgent.SetDestination(targetPosition);
             _animator.SetFloat(AnimatorParameters.MovementSpeed, moveSpeed);
         }

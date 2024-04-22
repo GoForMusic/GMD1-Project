@@ -1,3 +1,5 @@
+using Gameplay;
+using PoolManager;
 using Static;
 using UnityEngine;
 
@@ -16,7 +18,9 @@ namespace Interfaces.Core
         private bool _hasAttacked = false;
         private GameObject _target;
         private float _weaponAttackRange;
-
+        private ObjectPoolManager _poolManager; // Reference to the object pool manager
+        private Transform _projectileSpawnPoint; // Reference to the projectile spawn point
+        
         /// <summary>
         /// Constructor for creating a range fighter.
         /// </summary>
@@ -25,7 +29,15 @@ namespace Interfaces.Core
         /// <param name="timeBetweenAttack">The time between each attack.</param>
         /// <param name="noOfAttacks">The number of attacks the fighter has.</param>
         /// <param name="weaponAttackRange">The attack range of the fighter's weapon.</param>
-        public FighterRange(string yourTag,float dealDmg, float timeBetweenAttack, int noOfAttacks, float weaponAttackRange)
+        /// <param name="poolManager">Pool manager reference, used to spawn obj from the pool</param>
+        /// <param name="projectileSpawnPoint">Projectile from where to spawn</param>
+        public FighterRange(string yourTag,
+            float dealDmg, 
+            float timeBetweenAttack, 
+            int noOfAttacks,
+            float weaponAttackRange,
+            ObjectPoolManager poolManager,
+            Transform projectileSpawnPoint)
         {
             if (yourTag.Equals("Team1"))
             {
@@ -38,6 +50,9 @@ namespace Interfaces.Core
             _timeBetweenAttack = timeBetweenAttack;
             _noOfAttacks = noOfAttacks;
             _weaponAttackRange = weaponAttackRange;
+            _poolManager = poolManager;
+            _projectileSpawnPoint = projectileSpawnPoint;
+            
         }
         
         public void AttackBehavior(Animator animator, float attackInput)
@@ -82,10 +97,34 @@ namespace Interfaces.Core
 
             if (Vector3.Distance(position, _target.transform.position) < _weaponAttackRange)
             {
-                IHealth enemyHealth = _target.GetComponent<IHealthProvider>().GetHealth();
-                var newTag = _target.tag;
-                enemyHealth.DealDamage(_dealDmg, ref newTag,_target);
-                _target.gameObject.tag = newTag;
+                // Determine the projectile key based on the target's tag
+                string projectileKey = "";
+                if (_target.tag.Equals("Team1"))
+                {
+                    projectileKey = "MinionP2-Range-Projectile";
+                }
+                else if (_target.tag.Equals("Team2"))
+                {
+                    projectileKey = "MinionP1-Range-Projectile";
+                }
+                
+                // Initialize and activate a projectile from the object pool
+                GameObject projectile = _poolManager.GetObjectFromPool(projectileKey, _projectileSpawnPoint.position, Quaternion.identity);
+                if (projectile != null)
+                {
+                    string shooterTag = "";
+                    if (_target.tag.Equals("Team1"))
+                    {
+                        shooterTag = "Team2";
+                    }
+                    else if (_target.tag.Equals("Team2"))
+                    {
+                        shooterTag = "Team1";
+                    }
+                    
+                    // Initialize the projectile with the shooter's tag and damage
+                    projectile.GetComponent<Projectile>().Initialize(_poolManager,_target,_dealDmg);
+                }
             }
         }
     }

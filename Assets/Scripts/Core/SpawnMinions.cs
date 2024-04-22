@@ -19,7 +19,7 @@ public class SpawnMinions : MonoBehaviour
     private PatrolPath _patrolPath;
     
     // Reference to the minion pool manager
-    private MinionPoolManager _minionPoolManager;
+    private ObjectPoolManager _objectPoolManager;
     
     private void Start()
     {
@@ -30,7 +30,7 @@ public class SpawnMinions : MonoBehaviour
         }
         else
         {
-            _minionPoolManager = FindObjectOfType<MinionPoolManager>();
+            _objectPoolManager = FindObjectOfType<ObjectPoolManager>();
             
             StartCoroutine(SpawnMinionsAsync());
         }
@@ -43,13 +43,13 @@ public class SpawnMinions : MonoBehaviour
             foreach (var key in _spawnConfigurations)
             {
                 Vector3 spawnLocation = _patrolPath.GetWaypoints()[0];
-                GameObject minion = _minionPoolManager.GetMinionFromPool(key,spawnLocation, transform.rotation);
+                GameObject minion = _objectPoolManager.GetObjectFromPool(key,spawnLocation, transform.rotation);
 
                 // Check if the pool size needs to be increased
                 if (minion == null)
                 {
-                    _minionPoolManager.IncreasePoolSize(key);
-                    minion = _minionPoolManager.GetMinionFromPool(key, spawnLocation, transform.rotation);
+                    _objectPoolManager.IncreasePoolSize(key);
+                    minion = _objectPoolManager.GetObjectFromPool(key, spawnLocation, transform.rotation);
                 }
                 
                 if (minion != null)

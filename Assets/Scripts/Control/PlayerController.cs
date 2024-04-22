@@ -55,9 +55,6 @@ namespace Control
                 case AttackType.Melee:
                     _fighter = new FighterMelee(gameObject.tag,dealDmg,timeBetweenAttack,noOfAttacks,_weaponRange);
                     break;
-                case AttackType.Range:
-                    _fighter = new FighterRange(gameObject.tag,dealDmg,timeBetweenAttack,noOfAttacks,_weaponRange);
-                    break;
                 default:
                     Debug.LogError("Unknown attack type!");
                     break;
