@@ -27,7 +27,6 @@ namespace Gameplay
 
             // Check if the projectile is close enough to the target
             float distanceToTarget = Vector3.Distance(transform.position, _target.transform.position);
-            Debug.Log(distanceToTarget);
             float threshold = 0.1f; // Adjust this value based on your needs
             if (distanceToTarget <= threshold)
             {
