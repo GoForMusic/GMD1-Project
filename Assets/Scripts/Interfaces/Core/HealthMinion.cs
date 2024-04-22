@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using PoolManager;
 using Static;
@@ -12,6 +13,7 @@ namespace Interfaces.Core
     /// </summary>
     public class HealthMinion : IHealth
     {
+        public event Action<IHealth> OnDeathHandle; // Event to notify when the minion dies
         
         private Slider _healthBar;
         private float _maxHealth;
@@ -133,6 +135,9 @@ namespace Interfaces.Core
             _animator.SetTrigger(AnimatorParameters.Die);
             gameObjectTag = "Untagged";
 
+            // Trigger the minion death event
+            OnDeathHandle?.Invoke(this);
+            
             _originMonoBehaviour.StartCoroutine(DieWithDelay(gameObject)); 
         }
         

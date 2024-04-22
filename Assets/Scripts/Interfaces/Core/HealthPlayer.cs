@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Static;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace Interfaces.Core
     /// </summary>
     public class HealthPlayer : IHealth
     {
+        public event Action<IHealth> OnDeathHandle;
+        
         private Slider _healthBar;
         private float _maxHealth;
         private float _currentHealth;
@@ -131,6 +134,9 @@ namespace Interfaces.Core
             
             _animator.SetTrigger(AnimatorParameters.Die);
             gameObjectTag = "Untagged";
+            
+            // Trigger the minion death event
+            OnDeathHandle?.Invoke(this);
             
             Revive(ref gameObjectTag);
         }

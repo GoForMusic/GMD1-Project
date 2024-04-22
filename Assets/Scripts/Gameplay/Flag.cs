@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Control;
+using Interfaces.Core;
 using UnityEngine;
 
 namespace Gameplay
@@ -23,19 +25,18 @@ namespace Gameplay
         
         private Renderer _flagRenderer;
         private Renderer _flagMiniMapRenderer;
-
+        
         [SerializeField]
-        private List<string> _tagsInCaptureZone;
+        private List<GameObject> _minionsInCaptureZone;
         
         private void Start()
         {
             _flagRenderer = GetComponentsInChildren<Renderer>()[1];
             _flagMiniMapRenderer = GetComponentsInChildren<Renderer>()[0];
-            _tagsInCaptureZone = new List<string>();
-            _currentCapturingTeam = "";
+            _minionsInCaptureZone = new List<GameObject>();
             SetupFlag();
         }
-
+        
         private void SetupFlag()
         {
             // Convert team ID to team name
@@ -65,7 +66,8 @@ namespace Gameplay
             // Check if the entering GameObject is a player or minion
             if (other.CompareTag("Team1") || other.CompareTag("Team2"))
             {
-                _tagsInCaptureZone.Add(other.tag);
+                other.gameObject.GetComponent<IHealthProvider>().GetHealth().OnDeathHandle += DeathHandler;
+                _minionsInCaptureZone.Add(other.gameObject);
                 // Check if the entering GameObject belongs to one of the allowed teams
                 if (!_capturing && AreAllMembersSameTeam())
                 {
@@ -74,7 +76,6 @@ namespace Gameplay
                         _currentCapturingTeam = other.tag;
                         _captureCoroutine = CaptureCoroutine();
                         StartCoroutine(_captureCoroutine);
-                        Debug.Log("Capture started by team: " + _currentCapturingTeam);
                     }
                 }
             }
@@ -82,7 +83,15 @@ namespace Gameplay
 
         private bool AreAllMembersSameTeam()
         {
-            return _tagsInCaptureZone.All(tag => tag == "Team1") || _tagsInCaptureZone.All(tag => tag == "Team2");
+            foreach (var minion in _minionsInCaptureZone)
+            {
+                if (!minion.CompareTag(_currentCapturingTeam))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
         
         private void OnTriggerExit(Collider other)
@@ -90,7 +99,8 @@ namespace Gameplay
             // If a player or minion exits the collider, stop capturing
             if (other.CompareTag("Team1") || other.CompareTag("Team2"))
             {
-                _tagsInCaptureZone.Remove(other.tag);
+                other.gameObject.GetComponent<IHealthProvider>().GetHealth().OnDeathHandle -= DeathHandler;
+                _minionsInCaptureZone.Remove(other.gameObject);
                 // Check if the exiting GameObject is from the same team as the current capturing team
                 if (_capturing && !AreAllMembersSameTeam())
                 {
@@ -106,14 +116,24 @@ namespace Gameplay
         {
             if (other.CompareTag("Team1") || other.CompareTag("Team2"))
             {
-                if (!_tagsInCaptureZone.Contains(other.tag))
+                if (!_capturing && AreAllMembersSameTeam())
                 {
-                    if (!_capturing && AreAllMembersSameTeam())
-                    {
-                        _captureCoroutine = CaptureCoroutine();
-                        StartCoroutine(_captureCoroutine);
-                    }
+                    _captureCoroutine = CaptureCoroutine();
+                    StartCoroutine(_captureCoroutine);
                 }
+               
+            }
+        }
+
+        private void DeathHandler(IHealth obj)
+        {
+            GameObject gameobject = _minionsInCaptureZone.Find(g =>
+                g.gameObject.GetComponent<IHealthProvider>().GetHealth() == obj);
+            Debug.Log("gameObject.name " + gameobject.name);
+            if (gameobject != null && _minionsInCaptureZone.Contains(gameobject))
+            {
+                _minionsInCaptureZone.Remove(gameobject);
+                // Additional logic if needed
             }
         }
         

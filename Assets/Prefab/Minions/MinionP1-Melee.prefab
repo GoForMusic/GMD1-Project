@@ -178,7 +178,7 @@ MonoBehaviour:
   moveSpeed: 5
   rotationSpeed: 5
   maxHealth: 100
-  followDistanceThreshold: 5
+  followDistanceThreshold: 10
   dealDmg: 10
   timeBetweenAttack: 0.5
   noOfAttacks: 2

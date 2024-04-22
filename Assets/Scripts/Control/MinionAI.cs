@@ -22,7 +22,7 @@ namespace Control
         public float moveSpeed = 5f;
         public float rotationSpeed = 5f;
         public float maxHealth = 100f;
-        public float followDistanceThreshold = 5f;
+        public float followDistanceThreshold = 7f;
         public float dealDmg = 10f;
         public float timeBetweenAttack = 1f;
         public int noOfAttacks = 2;
@@ -35,6 +35,7 @@ namespace Control
         private Slider healthBar;
         
         private Animator _animator;
+        private NavMeshAgent _navMeshAgent;
         
         //Other Core Elements
         private IFighter _fighter;
@@ -48,6 +49,7 @@ namespace Control
         private void Awake()
         {
             _animator = GetComponent<Animator>();
+            _navMeshAgent = GetComponent<NavMeshAgent>();
             // Determine which attack strategy to use based on the selected attack type
             switch (attackType)
             {
@@ -66,7 +68,7 @@ namespace Control
             _health = new HealthMinion(healthBar,
                 maxHealth,
                 gameObject.tag,
-                GetComponent<NavMeshAgent>(),
+                _navMeshAgent,
                 GetComponent<Collider>(),
                 _animator,
                 FindObjectOfType<MinionPoolManager>(),
@@ -155,6 +157,10 @@ namespace Control
                     _fighter.AttackBehavior(_animator, 1f);
                 }
             }
+            else
+            {
+                _fighter.SetEnemyTarger(null);
+            }
         }
 
         /// <summary>
@@ -173,7 +179,7 @@ namespace Control
         /// <param name="targetPosition">The position to move towards.</param>
         private void MoveTowards(Vector3 targetPosition)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+            _navMeshAgent.SetDestination(targetPosition);
             _animator.SetFloat(AnimatorParameters.MovementSpeed, moveSpeed);
         }
         

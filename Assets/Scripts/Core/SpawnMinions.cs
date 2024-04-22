@@ -43,7 +43,6 @@ public class SpawnMinions : MonoBehaviour
             foreach (var key in _spawnConfigurations)
             {
                 Vector3 spawnLocation = _patrolPath.GetWaypoints()[0];
-                
                 GameObject minion = _minionPoolManager.GetMinionFromPool(key,spawnLocation, transform.rotation);
 
                 // Check if the pool size needs to be increased
