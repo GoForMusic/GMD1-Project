@@ -12,17 +12,17 @@ namespace PoolManager
     [CreateAssetMenu(fileName = "PoolManagerDatabase", menuName = "ObjectPool/Pool Manager Database")]
     public class PoolManagerDatabase : ScriptableObject
     {
-        public int poolSize;
-        
         [System.Serializable]
         public struct PrefabData
         {
+            public int poolSize;
             public string key;
             public GameObject prefab;
             [Range(1,2)]
             public int team;
         }
         
+        [Header("Pools")]
         [FormerlySerializedAs("PrefabDatas")] [SerializeField]
         public List<PrefabData> prefabDatas = new List<PrefabData>();
         
@@ -34,6 +34,21 @@ namespace PoolManager
         public GameObject GetPrefabByKey(string key)
         {
             return prefabDatas.Find(minionPrefabs => minionPrefabs.key == key).prefab;
+        }
+        
+        /// <summary>
+        /// Retrieves the poolsize associated with the specified key.
+        /// </summary>
+        /// <param name="key">The key associated with the desired pool size.</param>
+        /// <returns>The pool size associated with the key.</returns>
+        public int GetPoolSizeByKey(string key)
+        {
+            return prefabDatas.Find(minionPrefabs => minionPrefabs.key == key).poolSize;
+        }
+        
+        public int GetGameObjectTeamByKey(string key)
+        {
+            return prefabDatas.Find(minionPrefabs => minionPrefabs.key == key).team;
         }
     }
 }

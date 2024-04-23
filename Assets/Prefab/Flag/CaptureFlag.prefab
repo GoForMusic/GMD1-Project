@@ -165,7 +165,6 @@ GameObject:
   - component: {fileID: 3653694311216687405}
   - component: {fileID: 2804204876722516093}
   - component: {fileID: 1258969076111223770}
-  - component: {fileID: 94028274012210348}
   m_Layer: 0
   m_Name: CaptureFlag
   m_TagString: Untagged
@@ -234,6 +233,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: eb8d84079f9b9974e9536d7338171734, type: 2}
   - {fileID: 2100000, guid: e4d218304d14a004680464c3b39612e0, type: 2}
   - {fileID: 2100000, guid: f731a2ae89bef7a47a008811dfbd4680, type: 2}
+  _minionsInCaptureZone: []
 --- !u!135 &1258969076111223770
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -255,22 +255,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
---- !u!208 &94028274012210348
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2749894688362776581}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &2764616553100980128
 GameObject:
   m_ObjectHideFlags: 0

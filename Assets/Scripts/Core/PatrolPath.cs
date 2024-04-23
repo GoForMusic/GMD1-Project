@@ -32,8 +32,12 @@ namespace Core
                     Gizmos.DrawIcon(GetCurrentWayPointLocation(i),"sv_icon_dot8_pix16_gizmo");
                 }
                 
-                Gizmos.color = team == 1 ? Color.blue: Color.red;
-                Gizmos.DrawLine(GetCurrentWayPointLocation(i),GetCurrentWayPointLocation(GetNextIndex(i)));
+                // Draw line only if it's not the last waypoint
+                if(i<transform.childCount-1)
+                {
+                    Gizmos.color = team == 1 ? Color.blue: Color.red;
+                    Gizmos.DrawLine(GetCurrentWayPointLocation(i),GetCurrentWayPointLocation(GetNextIndex(i)));
+                }
             }
         }
 

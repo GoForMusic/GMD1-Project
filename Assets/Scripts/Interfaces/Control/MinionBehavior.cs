@@ -29,10 +29,11 @@ namespace Interfaces.Control
             {
                 _currentWaypointIndex++;
             }
+            
 
             return targetPosition;
         }
-
+        
         public Vector3? MoveToEnemy(GameObject enemyTarget, Vector3 minionPosition) 
         {
             if (enemyTarget == null)

@@ -17,7 +17,7 @@ namespace Gameplay
             _target= target;
             _dealDmg = dealDmg;
         }
-
+        
         private void Update()
         {
             // Calculate the direction to the target

@@ -129,7 +129,6 @@ namespace Gameplay
         {
             GameObject gameobject = _minionsInCaptureZone.Find(g =>
                 g.gameObject.GetComponent<IHealthProvider>().GetHealth() == obj);
-            Debug.Log("gameObject.name " + gameobject.name);
             if (gameobject != null && _minionsInCaptureZone.Contains(gameobject))
             {
                 _minionsInCaptureZone.Remove(gameobject);

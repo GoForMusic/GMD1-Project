@@ -94,7 +94,7 @@ namespace Interfaces.Core
         public void Hit(Vector3 position)
         {
             if (_target ==null) return;
-
+            
             if (Vector3.Distance(position, _target.transform.position) < _weaponAttackRange)
             {
                 // Determine the projectile key based on the target's tag
@@ -107,6 +107,8 @@ namespace Interfaces.Core
                 {
                     projectileKey = "MinionP1-Range-Projectile";
                 }
+
+                if(projectileKey.Equals("")) return;
                 
                 // Initialize and activate a projectile from the object pool
                 GameObject projectile = _poolManager.GetObjectFromPool(projectileKey, _projectileSpawnPoint.position, Quaternion.identity);

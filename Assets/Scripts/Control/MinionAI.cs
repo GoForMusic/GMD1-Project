@@ -208,7 +208,9 @@ namespace Control
         {
             if (other.gameObject.CompareTag(_fighter.GetEnemyTag()))
             {
-                _fighter.SetEnemyTarger(other.gameObject);
+                // Set the enemy target first one is on the view
+                if(_fighter.GetEnemyTarget() == null)
+                    _fighter.SetEnemyTarger(other.gameObject);
             }
         }
 

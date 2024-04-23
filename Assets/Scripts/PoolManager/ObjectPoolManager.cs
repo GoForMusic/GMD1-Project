@@ -13,30 +13,20 @@ namespace PoolManager
         public PoolManagerDatabase poolManagerDatabase;
         
         private Dictionary<string, Queue<GameObject>> _pools = new Dictionary<string, Queue<GameObject>>();
-        private int _initialPoolSize;
         
         /// <summary>
         /// Initializes the minion pools on Awake.
         /// </summary>
         private void Awake()
         {
-            if (poolManagerDatabase != null)
-            {
-                _initialPoolSize = poolManagerDatabase.poolSize;
-
-                InitializePools(_initialPoolSize);
-            }
-            else
-            {
-                Debug.LogWarning("PoolManagerDatabase is not assigned.");
-            }
+            InitializePools();
         }
         
         /// <summary>
         /// Initializes the pools with the specified size for each minion type.
         /// </summary>
         /// <param name="poolSize">The initial size of each pool.</param>
-        private void InitializePools(int poolSize)
+        private void InitializePools()
         {
             foreach (var prefabData in poolManagerDatabase.prefabDatas)
             {
@@ -45,7 +35,7 @@ namespace PoolManager
                 Queue<GameObject> pool = new Queue<GameObject>();
 
                 // Create initial pool objects
-                for (int i = 0; i < poolSize; i++)
+                for (int i = 0; i < prefabData.poolSize; i++)
                 {
                     GameObject minion = Instantiate(prefab, transform.position, Quaternion.identity);
                     minion.SetActive(false);
@@ -68,21 +58,18 @@ namespace PoolManager
                 Debug.LogError($"Minion type '{key}' not found in minionPools.");
                 return;
             }
-
-            int newPoolSize = _initialPoolSize +1; // Double the pool size
+            
             Queue<GameObject> pool = _pools[key];
             GameObject prefab = poolManagerDatabase.GetPrefabByKey(key);
-
+            int newPoolSize = poolManagerDatabase.GetPoolSizeByKey(key) + 1;
+            
             // Instantiate additional minions to meet the new pool size
             while (pool.Count < newPoolSize)
             {
-                GameObject minion = Instantiate(prefab, transform.position, Quaternion.identity);
-                minion.SetActive(false);
-                pool.Enqueue(minion);
+                GameObject obj = Instantiate(prefab, transform.position, Quaternion.identity);
+                obj.SetActive(false);
+                pool.Enqueue(obj);
             }
-
-            // Update the initial pool size
-            _initialPoolSize = newPoolSize;
         }
         
         /// <summary>

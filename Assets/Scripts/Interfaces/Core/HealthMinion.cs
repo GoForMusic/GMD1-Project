@@ -151,6 +151,7 @@ namespace Interfaces.Core
             // Return the minion to the pool
             if (_objectPoolManager != null)
             {
+                gameObject.tag = _initialTag;
                 _objectPoolManager.ReturnObjectToPool(gameObject);
             }
         }
