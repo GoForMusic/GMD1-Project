@@ -3,6 +3,7 @@ using Interfaces.Control;
 using Interfaces.Core;
 using Static;
 using Stats;
+using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -22,7 +23,7 @@ namespace Control
         
         [Header("PlayerUI")]
         [SerializeField]
-        private Slider healthBar;
+        private UIManager uiManager;
 
         [Header("Config file")]
         [SerializeField]
@@ -58,7 +59,7 @@ namespace Control
                     break;
             }
             
-            _health = new HealthPlayer(healthBar,
+            _health = new HealthPlayer(uiManager,
                 _statsConfig.maxHealth,
                 gameObject.tag,
                 GetComponent<Collider>(),
@@ -67,6 +68,8 @@ namespace Control
                 this,
                 10f,
                 _sp);
+            
+            uiManager.UpdateDamageText(_statsConfig.dealDmg);
             
             //Init Interface
             _movement = new Movement();
@@ -87,6 +90,17 @@ namespace Control
                 IHealth enemyHealth = _fighter.GetEnemyTarget().GetComponent<IHealthProvider>().GetHealth();
                 if (enemyHealth != null && enemyHealth.IsDead())
                 {
+                    if (enemyHealth is HealthPlayer)
+                    {
+                        // Update experience UI with 200 experience points for killing a player
+                        uiManager.UpdateExperience(200);
+                    }
+                    else if (enemyHealth is HealthMinion)
+                    {
+                        // Update experience UI with 50 experience points for killing a minion
+                        uiManager.UpdateExperience(50);
+                    }
+                    
                     // Clear the target if it's dead
                     _fighter.SetEnemyTarger(null);
                 }

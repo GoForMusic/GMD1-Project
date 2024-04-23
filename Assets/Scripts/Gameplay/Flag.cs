@@ -21,6 +21,7 @@ namespace Gameplay
         
         private bool _capturing = false;
         private IEnumerator _captureCoroutine;
+        [SerializeField]
         private string _currentCapturingTeam;
         
         private Renderer _flagRenderer;
@@ -118,9 +119,11 @@ namespace Gameplay
             {
                 if (AreAllMembersSameTeam() && !gameObject.CompareTag(other.tag + "Flag"))
                 {
-                    Debug.Log("das?");
-                    _captureCoroutine = CaptureCoroutine();
-                    StartCoroutine(_captureCoroutine);
+                    if (!_capturing)
+                    {
+                        _captureCoroutine = CaptureCoroutine();
+                        StartCoroutine(_captureCoroutine);
+                    }
                 }
                
             }
@@ -140,15 +143,9 @@ namespace Gameplay
         private IEnumerator CaptureCoroutine()
         {
             _capturing = true;
-            float timer = 0f;
-            while (timer < captureTime)
-            {
-                yield return null;
-                timer += Time.deltaTime;
-                float progress = timer / captureTime;
-                //Debug.Log("Capture progress: " + (progress * 100).ToString("F2") + "%");
-            }
-
+            Debug.Log("Start capturing!");
+            yield return new WaitForSeconds(captureTime);
+            Debug.Log("Capture completed!");
             // Capture completed
             // Change flag material based on the capturing team
             if (_currentCapturingTeam == "Team1")
@@ -156,13 +153,16 @@ namespace Gameplay
                 gameObject.tag = "Team1Flag";
                 _flagRenderer.material = teamMaterial[0];
                 _flagMiniMapRenderer.material = minimapMaterialMark[0];
+                _currentCapturingTeam = "Team2";
             }
             else if (_currentCapturingTeam == "Team2")
             {
                 gameObject.tag = "Team2Flag";
                 _flagRenderer.material = teamMaterial[1];
                 _flagMiniMapRenderer.material = minimapMaterialMark[1];
+                _currentCapturingTeam = "Team1";
             }
+            
             
             _capturing = false;
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Static;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ namespace Interfaces.Core
     {
         public event Action<IHealth> OnDeathHandle;
         
-        private Slider _healthBar;
+        private UIManager _uiManager;
         private float _maxHealth;
         private float _currentHealth;
         private bool _isDead = false;
@@ -29,7 +30,7 @@ namespace Interfaces.Core
         /// <summary>
         /// Constructor for initializing player health.
         /// </summary>
-        /// <param name="healthBar">The slider UI element representing the health bar.</param>
+        /// <param name="uiManager">The slider UI element representing the health bar.</param>
         /// <param name="maxHealth">The maximum health value.</param>
         /// <param name="gameObjectTag">The tag of the player character's game object.</param>
         /// <param name="collider">The collider component of the player character.</param>
@@ -38,7 +39,7 @@ namespace Interfaces.Core
         /// <param name="originMonoBehaviour">A MonoBehaviour used for running coroutines.</param>
         /// <param name="reviveDelay">Delay for revive coroutine</param>
         /// <param name="respawnPosition">S</param>
-        public HealthPlayer(Slider healthBar, 
+        public HealthPlayer(UIManager uiManager, 
             float maxHealth,
             string gameObjectTag,
             Collider collider,
@@ -48,7 +49,7 @@ namespace Interfaces.Core
             float reviveDelay,
             Vector3 respawnPosition)
         {
-            _healthBar = healthBar;
+            _uiManager = uiManager;
             _currentHealth = maxHealth;
             _maxHealth = maxHealth;
             _initialTag = gameObjectTag;
@@ -82,7 +83,6 @@ namespace Interfaces.Core
             if (_isDead)
             {
                 _originMonoBehaviour.StartCoroutine(ReviveWithDelay());
-                gameObjectTag = _initialTag;
             }
         }
         
@@ -114,9 +114,15 @@ namespace Interfaces.Core
             _isDead = false;
 
             if (_controller != null)
+            {
                 _controller.enabled = false; // Disable the controller momentarily to set position
                 _originMonoBehaviour.transform.position = _respawnPosition;
                 _controller.enabled = true; // Re-enable the controller
+            }
+            
+            //Set gameobj tag back
+            _originMonoBehaviour.gameObject.tag = _initialTag;
+            
         }
         
         /// <summary>
@@ -146,8 +152,7 @@ namespace Interfaces.Core
         /// </summary>
         void UpdateHealthBar()
         {
-            float normalizedHealth = _currentHealth / _maxHealth;
-            _healthBar.value = normalizedHealth;
+            _uiManager.UpdateHealth(_currentHealth, _maxHealth);
         }
     }
 }
