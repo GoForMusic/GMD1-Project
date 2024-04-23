@@ -21,13 +21,17 @@ namespace UI
         private int _currentLevel = 1;
         private float _currentExperience = 0f;
         private float _maxExperience = 100f; // Initial max experience
-
-        private void Start()
+        private float _levelUpMultiplier;
+        private int _maxLevel;
+        
+        public void Init(float levelUpMultiplier, int maxLevel)
         {
-            UpdateExperience(0);
+            _levelUpMultiplier = levelUpMultiplier;
+            _maxLevel = maxLevel;
             levelText.text = _currentLevel+"";
+            UpdateExperience(0);
         }
-
+        
         private void Update()
         {
             // Update flags count based on the number of game objects with the same tag
@@ -47,7 +51,7 @@ namespace UI
             float totalExperience = _currentExperience + gainExperience;
 
             // Check if level up is required
-            if (totalExperience >= _maxExperience)
+            if (totalExperience >= _maxExperience && _currentLevel <= _maxLevel)
             {
                 float remainingExperience = totalExperience - _maxExperience;
                 LevelUp();
@@ -69,7 +73,7 @@ namespace UI
             ShowLevelUpImage(true);
 
             // Increase max experience for next level
-            _maxExperience *= 2;
+            _maxExperience *= _levelUpMultiplier;
             _currentExperience = 0f;
             experienceSlider.value = _currentExperience / _maxExperience;
             experienceText.text = $"{_currentExperience}/{_maxExperience}";
@@ -97,6 +101,11 @@ namespace UI
         public void UpdateFlagsText(int flagsCount)
         {
             flagsText.text = "x " + flagsCount;
+        }
+
+        public int GetCurrentLevel()
+        {
+            return _currentLevel;
         }
 
     }

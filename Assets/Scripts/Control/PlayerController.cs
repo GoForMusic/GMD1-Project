@@ -41,6 +41,7 @@ namespace Control
         /// </summary>
         void Start()
         {
+            uiManager.Init(_statsConfig.levelUpMultiplier, _statsConfig.maxLevel);
             _sp = transform.position;
             _animator = GetComponent<Animator>();
             _controller = GetComponent<CharacterController>();
@@ -70,7 +71,6 @@ namespace Control
                 _sp);
             
             uiManager.UpdateDamageText(_statsConfig.dealDmg);
-            
             //Init Interface
             _movement = new Movement();
         }

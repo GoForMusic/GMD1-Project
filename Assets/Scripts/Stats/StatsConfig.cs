@@ -6,6 +6,11 @@ namespace Stats
     [CreateAssetMenu(fileName = "StatsConfig", menuName = "Stats/Stats Configuration")]
     public class StatsConfig : ScriptableObject
     {
+        [Header("Player Stats")]
+        public float levelUpMultiplier = 2f;
+        public int startLevel = 1;
+        public int maxLevel = 15;
+        
         [Header("Minion Stats")]
         public float followDistanceThreshold = 7f; // Follow distance threshold for minions
         
