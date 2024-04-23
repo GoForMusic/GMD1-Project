@@ -48,12 +48,12 @@ namespace Gameplay
                 case "Team1Flag":
                     _flagRenderer.material = teamMaterial[0];
                     _flagMiniMapRenderer.material = minimapMaterialMark[0];
-                    _currentCapturingTeam = "Team1Flag";
+                    _currentCapturingTeam = "Team2";
                     break;
                 case "Team2Flag":
                     _flagRenderer.material = teamMaterial[1];
                     _flagMiniMapRenderer.material = minimapMaterialMark[1];
-                    _currentCapturingTeam = "Team2Flag";
+                    _currentCapturingTeam = "Team1";
                     break;
             }
             
@@ -102,22 +102,23 @@ namespace Gameplay
                 other.gameObject.GetComponent<IHealthProvider>().GetHealth().OnDeathHandle -= DeathHandler;
                 _minionsInCaptureZone.Remove(other.gameObject);
                 // Check if the exiting GameObject is from the same team as the current capturing team
-                if (_capturing && !AreAllMembersSameTeam())
+                if (_capturing && AreAllMembersSameTeam())
                 {
                     StopCoroutine(_captureCoroutine);
                     _capturing = false;
-                    _currentCapturingTeam = ""; // Reset current capturing team
+                    _currentCapturingTeam = gameObject.tag; // Reset current capturing team
                 }
             }
         }
         
-        //TODO: Needs to fix when the emeny die in his range
+        
         private void OnTriggerStay(Collider other)
         {
             if (other.CompareTag("Team1") || other.CompareTag("Team2"))
             {
-                if (!_capturing && AreAllMembersSameTeam())
+                if (AreAllMembersSameTeam() && !gameObject.CompareTag(other.tag + "Flag"))
                 {
+                    Debug.Log("das?");
                     _captureCoroutine = CaptureCoroutine();
                     StartCoroutine(_captureCoroutine);
                 }

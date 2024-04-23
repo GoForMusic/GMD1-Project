@@ -2,6 +2,7 @@ using System;
 using Interfaces.Control;
 using Interfaces.Core;
 using Static;
+using Stats;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -22,17 +23,10 @@ namespace Control
         [Header("PlayerUI")]
         [SerializeField]
         private Slider healthBar;
-        
-        [Header("Player Stats")] 
-        [SerializeField] private float _moveSpeed = 25f;
-        [SerializeField] private float _rotateSpeed = 10f;
-        [SerializeField] private float _weaponRange = 2f;
-        public float maxHealth = 100f;
-        public float dealDmg = 50f;
-        public float timeBetweenAttack = 0.5f;
-        public int noOfAttacks = 3;
+
+        [Header("Config file")]
         [SerializeField]
-        private AttackType attackType;
+        private StatsConfig _statsConfig;
         
         //Other Core Elements
         private IFighter _fighter;
@@ -50,10 +44,14 @@ namespace Control
             _animator = GetComponent<Animator>();
             _controller = GetComponent<CharacterController>();
             _playerInput = GetComponent<PlayerInput>();
-            switch (attackType)
+            switch (_statsConfig.attackType)
             {
                 case AttackType.Melee:
-                    _fighter = new FighterMelee(gameObject.tag,dealDmg,timeBetweenAttack,noOfAttacks,_weaponRange);
+                    _fighter = new FighterMelee(gameObject.tag,
+                        _statsConfig.dealDmg,
+                        _statsConfig.timeBetweenAttack,
+                        _statsConfig.noOfAttacks,
+                        _statsConfig.weaponRange);
                     break;
                 default:
                     Debug.LogError("Unknown attack type!");
@@ -61,7 +59,7 @@ namespace Control
             }
             
             _health = new HealthPlayer(healthBar,
-                maxHealth,
+                _statsConfig.maxHealth,
                 gameObject.tag,
                 GetComponent<Collider>(),
                 _animator,
@@ -101,8 +99,8 @@ namespace Control
             Quaternion rotation = _movement.Rotate(moveVector,transform);
 
             // Apply the movement and rotation to the player
-            _controller.Move(moveVector * _moveSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, _rotateSpeed);
+            _controller.Move(moveVector * _statsConfig.moveSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, _statsConfig.rotationSpeed);
 
             // Perform attack behavior and update animator
             _fighter.AttackBehavior(_animator, _playerInput.actions["Fire"].ReadValue<float>());

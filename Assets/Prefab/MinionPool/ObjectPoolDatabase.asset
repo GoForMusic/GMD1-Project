@@ -16,18 +16,24 @@ MonoBehaviour:
   - poolSize: 8
     key: MinionP1-Melee
     prefab: {fileID: 9003645229488387263, guid: 77017705b700c01499e33231a0fd0ed1, type: 3}
+    team: 0
   - poolSize: 8
     key: MinionP1-Range
     prefab: {fileID: 6446569360779639238, guid: 714e2cf5c15d5c9469abd705ce10bad7, type: 3}
+    team: 0
   - poolSize: 8
     key: MinionP2-Melee
     prefab: {fileID: 9003645229488387263, guid: f08c1bffdcdc6dd49ad0e24ac9705b00, type: 3}
+    team: 2
   - poolSize: 8
     key: MinionP2-Range
     prefab: {fileID: 6446569360779639238, guid: 4034d38a4da4b954894a404279276157, type: 3}
+    team: 2
   - poolSize: 4
     key: MinionP1-Range-Projectile
     prefab: {fileID: 3753659319842493793, guid: ec2a006f34721f041979c5e0c4da25df, type: 3}
+    team: 0
   - poolSize: 4
     key: MinionP2-Range-Projectile
     prefab: {fileID: 3753659319842493793, guid: ec2a006f34721f041979c5e0c4da25df, type: 3}
+    team: 2

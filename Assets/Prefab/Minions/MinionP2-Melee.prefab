@@ -175,15 +175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrolPath: {fileID: 0}
-  moveSpeed: 5
-  rotationSpeed: 5
-  maxHealth: 100
-  followDistanceThreshold: 10
-  dealDmg: 10
-  timeBetweenAttack: 1
-  noOfAttacks: 2
-  weaponRange: 2
-  attackType: 0
+  _statsConfig: {fileID: 11400000, guid: 6a7e31f91faa92a459d93a621930c684, type: 2}
   projectileSpawnPoint: {fileID: 0}
   healthBar: {fileID: 8854296069528768973}
 --- !u!54 &4313716563213463558

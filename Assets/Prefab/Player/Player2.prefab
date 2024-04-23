@@ -2677,14 +2677,7 @@ MonoBehaviour:
   _animator: {fileID: 0}
   _camera: {fileID: 0}
   healthBar: {fileID: 0}
-  _moveSpeed: 10
-  _rotateSpeed: 10
-  _weaponRange: 2
-  maxHealth: 100
-  dealDmg: 50
-  timeBetweenAttack: 0.5
-  noOfAttacks: 3
-  attackType: 0
+  _statsConfig: {fileID: 11400000, guid: 9df53d3a7af2feb4995dcc311ea129b3, type: 2}
 --- !u!1 &9011807134160380661
 GameObject:
   m_ObjectHideFlags: 0

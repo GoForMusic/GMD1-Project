@@ -5,6 +5,7 @@ using Interfaces.Control;
 using Interfaces.Core;
 using PoolManager;
 using Static;
+using Stats;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -20,18 +21,12 @@ namespace Control
         // Variables to set in the Inspector
         [Header("PatrolPath")]
         public PatrolPath patrolPath;
-        [Header("Minion Stats")]
-        public float moveSpeed = 5f;
-        public float rotationSpeed = 5f;
-        public float maxHealth = 100f;
-        public float followDistanceThreshold = 7f;
-        public float dealDmg = 10f;
-        public float timeBetweenAttack = 1f;
-        public int noOfAttacks = 2;
-        public float weaponRange = 2f;
-        [Header("Only used for range minions")]
+        
+        [Header("Config file")]
         [SerializeField]
-        private AttackType attackType;
+        private StatsConfig _statsConfig;
+        
+        [Header("Only used for range minions")]
         [SerializeField] 
         private Transform projectileSpawnPoint;
         
@@ -56,16 +51,21 @@ namespace Control
             _animator = GetComponent<Animator>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
             // Determine which attack strategy to use based on the selected attack type
-            switch (attackType)
+            switch (_statsConfig.attackType)
             {
                 case AttackType.Melee:
-                    _fighter = new FighterMelee(gameObject.tag,dealDmg,timeBetweenAttack,noOfAttacks,weaponRange);
+                    _fighter = new FighterMelee(gameObject.tag,
+                        _statsConfig.dealDmg,
+                        _statsConfig.timeBetweenAttack,
+                        _statsConfig.noOfAttacks,
+                        _statsConfig.weaponRange);
                     break;
                 case AttackType.Range:
                     _fighter = new FighterRange(gameObject.tag,
-                        dealDmg,timeBetweenAttack,
-                        noOfAttacks,
-                        weaponRange,
+                        _statsConfig.dealDmg,
+                        _statsConfig.timeBetweenAttack,
+                        _statsConfig.noOfAttacks,
+                        _statsConfig.weaponRange,
                         FindObjectOfType<ObjectPoolManager>(),
                         projectileSpawnPoint);
                     break;
@@ -76,7 +76,7 @@ namespace Control
             
             // Initialize health component with Minion-specific parameters
             _health = new HealthMinion(healthBar,
-                maxHealth,
+                _statsConfig.maxHealth,
                 gameObject.tag,
                 _navMeshAgent,
                 GetComponent<Collider>(),
@@ -101,7 +101,7 @@ namespace Control
             transform.position = patrolPath.GetWaypoints()[0];
             // Initialize other interfaces
             _movement = new Movement();
-            _minionBehavior = new MinionBehavior(followDistanceThreshold,weaponRange);
+            _minionBehavior = new MinionBehavior(_statsConfig.followDistanceThreshold,_statsConfig.weaponRange);
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace Control
         private void RotateTowards(Vector3 targetPosition)
         {
             Quaternion rotation = _movement.Rotate(targetPosition - transform.position, transform);
-            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, _statsConfig.rotationSpeed * Time.deltaTime);
         }
         
         /// <summary>
@@ -192,7 +192,7 @@ namespace Control
         {
             _navMeshAgent.isStopped = false;
             _navMeshAgent.SetDestination(targetPosition);
-            _animator.SetFloat(AnimatorParameters.MovementSpeed, moveSpeed);
+            _animator.SetFloat(AnimatorParameters.MovementSpeed, _statsConfig.moveSpeed);
         }
         
         public IHealth GetHealth()

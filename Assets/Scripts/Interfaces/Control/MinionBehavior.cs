@@ -25,7 +25,7 @@ namespace Interfaces.Control
             if (_currentWaypointIndex >= patrolPath.GetWaypoints().Length) return null;
             Vector3 targetPosition = patrolPath.GetWaypoints()[_currentWaypointIndex];
             
-            if (Vector3.Distance(minionPosition, targetPosition) < 0.1f)
+            if (Vector3.Distance(minionPosition, targetPosition) < 0.2f)
             {
                 _currentWaypointIndex++;
             }
