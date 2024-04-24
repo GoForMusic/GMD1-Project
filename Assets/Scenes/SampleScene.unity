@@ -154,6 +154,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1441458050}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &241875363 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8634179772689976346, guid: 7dfb34dea91b0984a816c80076199d64, type: 3}
+  m_PrefabInstance: {fileID: 2701496432798233101}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8761c921bf84d1bb6defd947f5602ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &377185560
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,6 +338,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &420513409 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4047467147992815394, guid: 7dfb34dea91b0984a816c80076199d64, type: 3}
+  m_PrefabInstance: {fileID: 2701496432798233101}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8761c921bf84d1bb6defd947f5602ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &422103560
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,8 +877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803ab65e093f57c4c850b2e5cc591139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minions:
-  - {fileID: 5035575116198126428, guid: b3ff8cfce92d73e438b5c89f4a2a00d1, type: 3}
+  _spawnConfigurations: []
   _spawnInterval: 30
   _delayBetweenMinions: 1
   _patrolPath: {fileID: 0}
@@ -939,8 +960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 803ab65e093f57c4c850b2e5cc591139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minions:
-  - {fileID: 9003645229488387263, guid: 77017705b700c01499e33231a0fd0ed1, type: 3}
+  _spawnConfigurations: []
   _spawnInterval: 30
   _delayBetweenMinions: 1
   _patrolPath: {fileID: 0}
@@ -1290,6 +1310,10 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 3505457250787994901, guid: a8ef5efc09603c84ea4c16059181157d, type: 3}
+      propertyPath: uiManager
+      value: 
+      objectReference: {fileID: 420513409}
     - target: {fileID: 4384516754766227289, guid: a8ef5efc09603c84ea4c16059181157d, type: 3}
       propertyPath: m_Name
       value: Player1
@@ -1304,7 +1328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7672937370693414351, guid: a8ef5efc09603c84ea4c16059181157d, type: 3}
       propertyPath: m_DefaultControlScheme
-      value: 
+      value: Gamepad
       objectReference: {fileID: 0}
     - target: {fileID: 7672937370693414351, guid: a8ef5efc09603c84ea4c16059181157d, type: 3}
       propertyPath: m_NeverAutoSwitchControlSchemes
@@ -2683,6 +2707,10 @@ PrefabInstance:
       propertyPath: _camera
       value: 
       objectReference: {fileID: 1069361471}
+    - target: {fileID: 8961484810580429613, guid: 249b9e735012f464688e0d781d609eed, type: 3}
+      propertyPath: uiManager
+      value: 
+      objectReference: {fileID: 241875363}
     - target: {fileID: 9012608528587233278, guid: 249b9e735012f464688e0d781d609eed, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.062029
