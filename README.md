@@ -1,3 +1,5 @@
+![University_Logo](/Assets/Textures/Logo/VIA-Logo.png)
+
 # GMD1 - game project 
 
 A project for VIA University GMD1 course, in this project , I've creating a game for a retro arcade machine using Unity `2022.3.19f1` version.
