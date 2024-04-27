@@ -113,17 +113,7 @@ namespace Interfaces.Core
                 // Initialize and activate a projectile from the object pool
                 GameObject projectile = _poolManager.GetObjectFromPool(projectileKey, _projectileSpawnPoint.position, Quaternion.identity);
                 if (projectile != null)
-                {
-                    string shooterTag = "";
-                    if (_target.tag.Equals("Team1"))
-                    {
-                        shooterTag = "Team2";
-                    }
-                    else if (_target.tag.Equals("Team2"))
-                    {
-                        shooterTag = "Team1";
-                    }
-                    
+                { 
                     // Initialize the projectile with the shooter's tag and damage
                     projectile.GetComponent<Projectile>().Initialize(_poolManager,_target,_dealDmg);
                 }

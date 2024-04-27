@@ -12,8 +12,7 @@ namespace UI.Scoreboard
         
         
         public void Initialize(int position,PlayerData playerData)
-        {
-            Debug.Log("Reach??");
+        {            
             _positionText.text = position.ToString();
             _nameText.text = playerData.name;
             _scoreText.text = playerData.score.ToString();
