@@ -2,7 +2,7 @@
 title: "Blog 4 Developer post 2"
 author: "Adrian-Cristian Militaru"
 date: "30-04-2024"
-version: "0.1"
+version: "0.2"
 ---
 
 # Game Development Progress Report 2
@@ -280,3 +280,8 @@ Later on, those names will be used to populate a scoreboard using a file-based s
 In this blog post, I've provided an update on the progress of the game project, highlighting key developments in both gameplay mechanics and user interface enhancements. I've discussed the implementation of SOLID principles, which have guided the design of the interfaces for health, movement, and combat behaviors. By adhering to these principles, I've ensured a modular and extensible codebase that promotes maintainability and scalability.
 
 Looking ahead, I am excited to continue refining and expanding upon these features as I progress further in the development journey. Stay tuned for more updates and insights into my game development process in future blog posts.
+
+
+## See the whole class diagram
+
+![ClassDiagram](/blog/resources/ClassDiagram/GMD-Project-ClassDiagram.svg)
