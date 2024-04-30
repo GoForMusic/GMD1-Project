@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Interfaces.File;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -17,26 +18,34 @@ namespace UI
         public GameObject levelUpImage;
         public TextMeshProUGUI damageText;
         public TextMeshProUGUI flagsText;
+        public TextMeshProUGUI playerScore;
+        private TimerController _timerController;
         
         private int _currentLevel = 1;
         private float _currentExperience = 0f;
         private float _maxExperience = 100f; // Initial max experience
         private float _levelUpMultiplier;
         private int _maxLevel;
+        private int _score = 0;
+        private int _flagCount;
         
         public void Init(float levelUpMultiplier, int maxLevel)
         {
+            // Find the TimerController component
+            _timerController = FindObjectOfType<TimerController>();
+            _timerController.TenSecondsEvent += OnTenSecondsEvent;
+            
             _levelUpMultiplier = levelUpMultiplier;
             _maxLevel = maxLevel;
             levelText.text = _currentLevel+"";
             UpdateExperience(0);
         }
-        
-        private void Update()
+
+        private void LateUpdate()
         {
             // Update flags count based on the number of game objects with the same tag
-            int flagsCount = GameObject.FindGameObjectsWithTag(gameObject.tag).Length-1;
-            UpdateFlagsText(flagsCount);
+            _flagCount = GameObject.FindGameObjectsWithTag(gameObject.tag).Length-1;
+            UpdateFlagsText(_flagCount);
         }
 
         public void UpdateHealth(float currentHealth, float maxHealth)
@@ -64,6 +73,7 @@ namespace UI
                 experienceSlider.value = _currentExperience / _maxExperience;
                 experienceText.text = $"{_currentExperience}/{_maxExperience}";
             }
+            UpdateScore(Mathf.RoundToInt(gainExperience));
         }
         
         private void LevelUp()
@@ -102,11 +112,33 @@ namespace UI
         {
             flagsText.text = "x " + flagsCount;
         }
+        
+        private void OnTenSecondsEvent()
+        {
+            _score += 10 * (_flagCount==0?1:_flagCount);
+            UpdateScoreUI(); // Pass 0 or any other default value as needed
+        }
+        
+        private void UpdateScore(int scoreIncrease)
+        {
+            _score += scoreIncrease;
+            UpdateScoreUI();
+        }
 
+        private void UpdateScoreUI()
+        {
+            playerScore.text= "Score: " + _score;
+        }
+        
         public int GetCurrentLevel()
         {
             return _currentLevel;
         }
 
+        public int GetCurrentScore()
+        {
+            return _score;
+        }
+        
     }
 }

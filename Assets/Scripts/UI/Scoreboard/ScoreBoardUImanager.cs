@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Interfaces.File;
 using Model;
 using UnityEngine;
 
@@ -14,56 +15,14 @@ namespace UI.Scoreboard
         [SerializeField] private Transform team1ScoreboardParent;
         [SerializeField] private Transform team2ScoreboardParent;
         
+        private IScoreboardDataManager _dataManager;
+        
         public void LoadDataFromJson(string jsonFileName)
         {
-            string path = Application.dataPath + $"/{jsonFileName}.json";
-
-            if (File.Exists(path))
-            {
-                string jsonData = File.ReadAllText(path);
-                _playerDataList = JsonUtility.FromJson<PlayerDataList>(jsonData);
-            }
-            else
-            {
-                CreateNewJsonFile(jsonFileName);
-                string jsonData = File.ReadAllText(path);
-                _playerDataList = JsonUtility.FromJson<PlayerDataList>(jsonData);
-            }
-
+            _dataManager = new JsonScoreboardDataManager();
+            _playerDataList = _dataManager.LoadData(jsonFileName);
             SortDataByScore();
             PopulateUI();
-        }
-        
-        private void CreateNewJsonFile(string jsonFileName)
-        {
-            string path = Application.dataPath + $"/{jsonFileName}.json";
-
-            // Create a sample list of player data
-            List<PlayerData> sampleData = new List<PlayerData>
-            {
-                new PlayerData { name = "JOH", score = 85, team = "team1" },
-                new PlayerData { name = "ALI", score = 92, team = "team1" },
-                new PlayerData { name = "BOB", score = 78, team = "team2" }
-            };
-
-            // Wrap the list in a PlayerDataList object
-            PlayerDataList dataWrapper = new PlayerDataList();
-            dataWrapper.playerDataList = sampleData;
-            
-            // Serialize the sample data list to JSON
-            string jsonData = JsonUtility.ToJson(dataWrapper);
-            
-            // Write the JSON data to the file
-            try
-            {
-                // Write the JSON data to the file
-                File.WriteAllText(path, jsonData);
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"Failed to write JSON file: {e.Message}");
-                return;
-            }
         }
         
         private void SortDataByScore()
@@ -93,6 +52,18 @@ namespace UI.Scoreboard
             // Define initial Y positions
             float initialYPosition = 0f;
             float yDifference = 20.4f;
+            
+            // Clear existing entries before populating UI for Team 1
+            foreach (Transform child in team1ScoreboardParent)
+            {
+                Destroy(child.gameObject);
+            }
+            
+            // Clear existing entries before populating UI for Team 1
+            foreach (Transform child in team2ScoreboardParent)
+            {
+                Destroy(child.gameObject);
+            }
             
             // Populate UI for Team 1
             foreach (var playerData in team1Players)

@@ -14,6 +14,6 @@ namespace Model
     [Serializable]
     public class PlayerDataList
     {
-        public List<PlayerData> playerDataList;
+        public List<PlayerData> playerDataList=new List<PlayerData>();
     }
 }
