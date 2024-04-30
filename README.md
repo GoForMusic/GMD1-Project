@@ -9,10 +9,10 @@ A project for VIA University GMD1 course, in this project , I've creating a game
 ## List of blogs
 1. [Roll-a-ball](/blog/blog01.md)
 2. [Game Design Document & Milestones](/blog/blog02.md)
-3. [Development updates for each of the three specified milestones for the game.](/blog/blog03.md)
-4. [Development updates for each of the three specified milestones for the game.](/blog/blog04.md)
-5. [Development updates for each of the three specified milestones for the game.](/blog/blog05.md)
-6. [A blog post which shows off the final game product and concludes the project.](/blog/blog06.md)
+3. [Developer post](/blog/blog03.md)
+4. [Developer post 2](/blog/blog04.md)
+5. [Developer post 3](/blog/blog05.md)
+6. [Personal Reflection](/blog/blog06.md)
 
 ## Unity packages
 1. [NEW Input System UNITY](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.7/manual/index.html)

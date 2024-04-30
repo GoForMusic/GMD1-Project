@@ -1,5 +1,5 @@
 ---
-title: "Blog 3 Developer post 2"
+title: "Blog 4 Developer post 2"
 author: "Adrian-Cristian Militaru"
 date: "30-04-2024"
 version: "0.1"
