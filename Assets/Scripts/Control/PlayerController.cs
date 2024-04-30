@@ -1,4 +1,3 @@
-using System;
 using Interfaces.Control;
 using Interfaces.Core;
 using Static;
@@ -6,7 +5,6 @@ using Stats;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace Control
 {
