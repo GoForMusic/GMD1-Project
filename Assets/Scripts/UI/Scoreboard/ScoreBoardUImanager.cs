@@ -7,6 +7,9 @@ using UnityEngine;
 
 namespace UI.Scoreboard
 {
+    /// <summary>
+    /// Manages the UI for displaying the scoreboard.
+    /// </summary>
     public class ScoreBoardUImanager : MonoBehaviour
     {
         [SerializeField] 
@@ -17,6 +20,10 @@ namespace UI.Scoreboard
         
         private IScoreboardDataManager _dataManager;
         
+        /// <summary>
+        /// Loads player data from a JSON file and populates the scoreboard UI.
+        /// </summary>
+        /// <param name="jsonFileName">The name of the JSON file containing player data.</param>
         public void LoadDataFromJson(string jsonFileName)
         {
             _dataManager = new JsonScoreboardDataManager();
@@ -25,6 +32,9 @@ namespace UI.Scoreboard
             PopulateUI();
         }
         
+        /// <summary>
+        /// Sorts the player data list by score in descending order.
+        /// </summary>
         private void SortDataByScore()
         {
             if (_playerDataList != null && _playerDataList.playerDataList != null)
@@ -33,6 +43,9 @@ namespace UI.Scoreboard
             }
         }
         
+        /// <summary>
+        /// Populates the scoreboard UI with player data.
+        /// </summary>
         private void PopulateUI()
         {
             if (_playerDataList == null || _playerDataList.playerDataList == null)

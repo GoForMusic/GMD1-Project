@@ -13,9 +13,13 @@ public class TimerController : MonoBehaviour
     private float totalTime = 600f;// 600- 10 minutes in seconds
     private float _timeLeft;
 
-    // Event to be invoked every 10 seconds
+    /// <summary>
+    /// Event to be invoked every 10 seconds.
+    /// </summary>
     public event Action TenSecondsEvent;
-    // Event to be invoked when the game is over
+    /// <summary>
+    /// Event to be invoked when the countdown reaches zero.
+    /// </summary>
     public event Action GameOverEvent;
     
     private void Start()
@@ -24,6 +28,9 @@ public class TimerController : MonoBehaviour
         StartCoroutine(Countdown());
     }
 
+    /// <summary>
+    /// Executes a countdown from the total time to zero, updating the UI and triggering events.
+    /// </summary>
     private IEnumerator Countdown()
     {
         while (_timeLeft > 0)
@@ -46,6 +53,9 @@ public class TimerController : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    /// <summary>
+    /// Updates the timer display in the UI.
+    /// </summary>
     private void UpdateUI()
     {
         int minutes = Mathf.FloorToInt(_timeLeft / 60f);

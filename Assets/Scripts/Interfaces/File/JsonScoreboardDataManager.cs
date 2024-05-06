@@ -55,11 +55,5 @@ namespace Interfaces.File
             string path = Application.dataPath + $"/{jsonFileName}.json";
             System.IO.File.WriteAllText(path, jsonData);
         }
-        
-        private PlayerDataList CreateNewJsonFile(string jsonFileName)
-        {
-            PlayerDataList dataWrapper = new PlayerDataList();
-            return dataWrapper;
-        }
     }
 }

@@ -85,6 +85,9 @@ namespace Control
             
         }
 
+        /// <summary>
+        /// Initializes interfaces and sets initial position of the minion to the first waypoint.
+        /// </summary>
         private void Start()
         {
             // Make sure there is a PatrolPath assigned

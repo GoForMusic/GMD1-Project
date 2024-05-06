@@ -28,6 +28,9 @@ namespace Core
             _timerController.GameOverEvent += OnGameOverEvent;
         }
 
+        /// <summary>
+        /// Handles actions to perform on game over, including saving player data and loading the main menu.
+        /// </summary>
         private void OnGameOverEvent()
         {
             PlayerDataList playerDataList = new PlayerDataList
@@ -45,6 +48,14 @@ namespace Core
                 }}
             };
             _scoreboardDataManager.SaveData(playerDataList,jsFile);
+            SceneManager.LoadScene("MainMenu");
+        }
+
+        /// <summary>
+        /// Manually triggers game over actions, specifically loading the main menu.
+        /// </summary>
+        public void OnManualGameOverEvent()
+        {
             SceneManager.LoadScene("MainMenu");
         }
     }

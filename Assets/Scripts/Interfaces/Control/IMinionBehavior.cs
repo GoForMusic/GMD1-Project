@@ -30,7 +30,7 @@ namespace Interfaces.Control
         bool SawEnemy(GameObject enemyTarget);
 
         /// <summary>
-        /// Set the new current waypoint index, used when the minion is resurected.
+        /// Set the new current waypoint index, used when the minion are back in game.
         /// </summary>
         /// <param name="newWaypoint"></param>
         void SetCurrentWaypointIndex(int newWaypoint);

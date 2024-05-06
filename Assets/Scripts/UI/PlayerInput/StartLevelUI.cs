@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 namespace UI.PlayerInput
 {
+    /// <summary>
+    /// Handles UI interactions for starting a level, including capturing and validating player name input.
+    /// </summary>
     public class StartLevelUI : MonoBehaviour
     {
         private string _levelName;
@@ -14,11 +17,18 @@ namespace UI.PlayerInput
         [SerializeField]
         private List<TextMeshProUGUI> _inputPlayersName = new List<TextMeshProUGUI>();
         
+        /// <summary>
+        /// Sets the name of the level to load.
+        /// </summary>
+        /// <param name="levelName">The name of the level as a string.</param>
         public void SetLevelName(string levelName)
         {
             _levelName = levelName;
         }
         
+        /// <summary>
+        /// Initiates the level loading process after validating the player names.
+        /// </summary>
         public void StartLevel()
         {
             var player1Name = _inputPlayersName[0].text+_inputPlayersName[1].text+_inputPlayersName[2].text;

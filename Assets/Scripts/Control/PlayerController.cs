@@ -1,3 +1,4 @@
+using System;
 using Interfaces.Control;
 using Interfaces.Core;
 using Static;
@@ -71,6 +72,18 @@ namespace Control
             uiManager.UpdateDamageText(_statsConfig.dealDmg);
             //Init Interface
             _movement = new Movement();
+            
+            //Register the input action for the escape key
+            _playerInput.actions["PauseMenu"].performed += GoToMainMenu;
+        }
+
+        /// <summary>
+        /// Triggers the display of the main menu and pauses game activity.
+        /// </summary>
+        /// <param name="obj">Context for the input action, not used in this method.</param>
+        private void GoToMainMenu(InputAction.CallbackContext obj)
+        {
+            uiManager.ShowMenuUI();
         }
 
         /// <summary>
@@ -142,6 +155,14 @@ namespace Control
         private void Hit()
         {
             _fighter.Hit(transform.position);
+        }
+
+        /// <summary>
+        /// Unregisters the GoToMainMenu function from the PauseMenu action when the object is destroyed.
+        /// </summary>
+        private void OnDestroy()
+        {
+            _playerInput.actions["PauseMenu"].performed += GoToMainMenu;
         }
     }
 }

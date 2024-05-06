@@ -22,6 +22,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PauseMenu",
+                    "type": "Button",
+                    "id": "cc749dd8-cbe5-42ab-a3d7-beafe59e5512",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -105,11 +114,33 @@
                 {
                     "name": "",
                     "id": "d848a76c-43ed-4dcc-8dc0-2ef712a0b885",
-                    "path": "<Gamepad>/leftShoulder",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7fd44e92-7d50-42b9-a152-9e7f861df70a",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PauseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f1836b29-bfb8-4455-b94a-0958f91a2bd5",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "PauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -142,7 +173,7 @@
                 {
                     "name": "",
                     "id": "5a2b83ff-4447-449d-ad5d-692c38801605",
-                    "path": "<Gamepad>/rightStick",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -219,7 +250,7 @@
                 {
                     "name": "",
                     "id": "3087df83-9d4e-4058-9676-bbc593f7480e",
-                    "path": "<Gamepad>/rightShoulder",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",

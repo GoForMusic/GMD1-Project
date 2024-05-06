@@ -11,6 +11,12 @@ namespace Gameplay
         private GameObject _target;
         private float _dealDmg;
         
+        /// <summary>
+        /// Initializes the projectile with the required parameters.
+        /// </summary>
+        /// <param name="poolManager">The object pool manager to handle the projectile's lifecycle.</param>
+        /// <param name="target">The target GameObject that the projectile will move towards and potentially damage.</param>
+        /// <param name="dealDmg">The amount of damage the projectile will deal to the target.</param>
         public void Initialize(ObjectPoolManager poolManager,GameObject target, float dealDmg)
         {
             _poolManager = poolManager;
@@ -18,6 +24,9 @@ namespace Gameplay
             _dealDmg = dealDmg;
         }
         
+        /// <summary>
+        /// Updates the position of the projectile each frame, checks for impact, and handles damage application and object pooling.
+        /// </summary>
         private void Update()
         {
             // Calculate the direction to the target

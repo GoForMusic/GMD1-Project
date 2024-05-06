@@ -45,10 +45,5 @@ namespace PoolManager
         {
             return prefabDatas.Find(minionPrefabs => minionPrefabs.key == key).poolSize;
         }
-        
-        public int GetGameObjectTeamByKey(string key)
-        {
-            return prefabDatas.Find(minionPrefabs => minionPrefabs.key == key).team;
-        }
     }
 }

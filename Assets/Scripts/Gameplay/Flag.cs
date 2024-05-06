@@ -38,6 +38,9 @@ namespace Gameplay
             SetupFlag();
         }
         
+        /// <summary>
+        /// Sets up the initial configuration of the flag based on the team ID.
+        /// </summary>
         private void SetupFlag()
         {
             // Convert team ID to team name
@@ -62,6 +65,10 @@ namespace Gameplay
             gameObject.tag = teamName;
         }
         
+        /// <summary>
+        /// Adds a GameObject to the capture zone and starts capture if conditions are met.
+        /// </summary>
+        /// <param name="other">The collider that entered the capture zone.</param>
         private void OnTriggerEnter(Collider other)
         {
             // Check if the entering GameObject is a player or minion
@@ -95,6 +102,10 @@ namespace Gameplay
             return true;
         }
         
+        /// <summary>
+        /// Removes a GameObject from the capture zone and stops capture if conditions are met.
+        /// </summary>
+        /// <param name="other">The collider that exited the capture zone.</param>
         private void OnTriggerExit(Collider other)
         {
             // If a player or minion exits the collider, stop capturing
@@ -112,7 +123,10 @@ namespace Gameplay
             }
         }
         
-        
+        /// <summary>
+        /// Handles the continuous presence of a GameObject within the capture zone and initiates capturing if conditions are met.
+        /// </summary>
+        /// <param name="other">The collider that stayed within the capture zone.</param>
         private void OnTriggerStay(Collider other)
         {
             if (other.CompareTag("Team1") || other.CompareTag("Team2"))
@@ -129,6 +143,10 @@ namespace Gameplay
             }
         }
 
+        /// <summary>
+        /// Manages the death event of objects within the capture zone and updates the capturing team's status.
+        /// </summary>
+        /// <param name="obj">The health component of the deceased object.</param>
         private void DeathHandler(IHealth obj)
         {
             GameObject gameobject = _minionsInCaptureZone.Find(g =>
@@ -140,6 +158,9 @@ namespace Gameplay
             }
         }
         
+        /// <summary>
+        /// Executes the capturing process over a set duration and updates the flag status upon completion.
+        /// </summary>
         private IEnumerator CaptureCoroutine()
         {
             _capturing = true;

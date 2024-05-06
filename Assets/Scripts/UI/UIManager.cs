@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
-using Interfaces.File;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI
@@ -21,6 +19,10 @@ namespace UI
         public TextMeshProUGUI playerScore;
         private TimerController _timerController;
         
+        //Show the Go to MainMenu
+        public GameObject mainMenuElement;
+        public EventSystem uiEventSystem;
+        
         private int _currentLevel = 1;
         private float _currentExperience = 0f;
         private float _maxExperience = 100f; // Initial max experience
@@ -29,6 +31,11 @@ namespace UI
         private int _score = 0;
         private int _flagCount;
         
+        /// <summary>
+        /// Initializes the UI manager with level up multiplier and max level.
+        /// </summary>
+        /// <param name="levelUpMultiplier">The multiplier for leveling up.</param>
+        /// <param name="maxLevel">The maximum level.</param>
         public void Init(float levelUpMultiplier, int maxLevel)
         {
             // Find the TimerController component
@@ -48,6 +55,11 @@ namespace UI
             UpdateFlagsText(_flagCount);
         }
 
+        /// <summary>
+        /// Updates the health UI with current and max health values.
+        /// </summary>
+        /// <param name="currentHealth">The current health value.</param>
+        /// <param name="maxHealth">The maximum health value.</param>
         public void UpdateHealth(float currentHealth, float maxHealth)
         {
             float normalizedHealth = currentHealth / maxHealth;
@@ -55,6 +67,10 @@ namespace UI
             healthText.text = $"{currentHealth}/{maxHealth}";
         }
         
+        /// <summary>
+        /// Updates the experience UI with the gained experience.
+        /// </summary>
+        /// <param name="gainExperience">The amount of experience gained.</param>
         public void UpdateExperience(float gainExperience)
         {
             float totalExperience = _currentExperience + gainExperience;
@@ -98,16 +114,28 @@ namespace UI
             ShowLevelUpImage(false);
         }
         
+        /// <summary>
+        /// Shows or hides the level up image.
+        /// </summary>
+        /// <param name="show">Boolean value indicating whether to show or hide the image.</param>
         public void ShowLevelUpImage(bool show)
         {
             levelUpImage.gameObject.SetActive(show);
         }
         
+        /// <summary>
+        /// Updates the damage text UI with the specified damage amount.
+        /// </summary>
+        /// <param name="damageAmount">The amount of damage.</param>
         public void UpdateDamageText(float damageAmount)
         {
             damageText.text = $"+ {damageAmount} DMG";
         }
 
+        /// <summary>
+        /// Updates the flags text UI with the specified number of flags.
+        /// </summary>
+        /// <param name="flagsCount">The number of flags.</param>
         public void UpdateFlagsText(int flagsCount)
         {
             flagsText.text = "x " + flagsCount;
@@ -130,14 +158,22 @@ namespace UI
             playerScore.text= "Score: " + _score;
         }
         
-        public int GetCurrentLevel()
-        {
-            return _currentLevel;
-        }
-
+        /// <summary>
+        /// Gets the current score.
+        /// </summary>
+        /// <returns>The current score.</returns>
         public int GetCurrentScore()
         {
             return _score;
+        }
+
+        /// <summary>
+        /// Shows the main menu UI element.
+        /// </summary>
+        public void ShowMenuUI()
+        {
+            mainMenuElement.SetActive(true);
+            uiEventSystem.SetSelectedGameObject(mainMenuElement.GetComponentInChildren<Button>().gameObject);
         }
         
     }

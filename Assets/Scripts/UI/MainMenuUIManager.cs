@@ -12,6 +12,9 @@ public class MainMenuUIManager : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    /// <summary>
+    /// Closes the game.
+    /// </summary>
     public void CloseGame()
     {
         Application.Quit();
