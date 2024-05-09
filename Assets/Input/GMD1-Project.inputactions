@@ -125,7 +125,7 @@
                 {
                     "name": "",
                     "id": "7fd44e92-7d50-42b9-a152-9e7f861df70a",
-                    "path": "<Gamepad>/start",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -148,12 +148,12 @@
         },
         {
             "name": "Player2",
-            "id": "223ff224-6972-4462-8861-5164abb51eaa",
+            "id": "956743f8-b58c-45db-9bc5-b1b600909b28",
             "actions": [
                 {
                     "name": "Move",
                     "type": "Value",
-                    "id": "e1e56d8e-c0ed-4627-8212-9ee2eb2519d6",
+                    "id": "481f9354-29a0-4384-b986-36efde980dc1",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -162,7 +162,16 @@
                 {
                     "name": "Fire",
                     "type": "Button",
-                    "id": "4ed32bc8-e072-405c-9148-ccd180621bb9",
+                    "id": "dd2fd9fb-9071-44aa-96c5-cf32f9caea24",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PauseMenu",
+                    "type": "Button",
+                    "id": "4b8dce77-7dee-4f4f-b6f0-8bc6bd31c798",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -172,18 +181,18 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "5a2b83ff-4447-449d-ad5d-692c38801605",
+                    "id": "881f39f2-b9d4-4250-b2cb-3601e17cadb6",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
+                    "groups": ";Gamepad",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "WASD",
-                    "id": "ba138c48-f616-4df1-a18f-46b8dc2934f0",
+                    "id": "83229283-a0e0-4c64-bc4d-72df392eff77",
                     "path": "Dpad",
                     "interactions": "",
                     "processors": "",
@@ -194,8 +203,8 @@
                 },
                 {
                     "name": "up",
-                    "id": "5bd3ea6d-0dc5-4abe-8776-695eb4ecc32a",
-                    "path": "<Keyboard>/upArrow",
+                    "id": "9af959c4-bf76-4352-8002-a404247a0a5b",
+                    "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -205,8 +214,8 @@
                 },
                 {
                     "name": "down",
-                    "id": "595ba135-993c-4f45-b5b4-fe88d8d8da3a",
-                    "path": "<Keyboard>/downArrow",
+                    "id": "5a1721d4-004b-43f3-b255-8eab113c5dd4",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -216,8 +225,8 @@
                 },
                 {
                     "name": "left",
-                    "id": "686824b5-8d5a-4663-93e6-768f6030dcd3",
-                    "path": "<Keyboard>/leftArrow",
+                    "id": "32ff0af0-4f02-46b7-be41-c522233901ae",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -227,8 +236,8 @@
                 },
                 {
                     "name": "right",
-                    "id": "85a2c935-a8bc-44bb-8155-56f2e40dee72",
-                    "path": "<Keyboard>/rightArrow",
+                    "id": "bfb6d6bc-3d8f-4b87-91e1-5878e31ee7de",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -238,23 +247,45 @@
                 },
                 {
                     "name": "",
-                    "id": "b8c0e90a-d8ed-48b0-b4c3-34423cf946c0",
-                    "path": "<Mouse>/rightButton",
+                    "id": "9f76752e-e90d-4e61-a8be-2983ad0bb484",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard&Mouse",
+                    "groups": "Keyboard&Mouse",
                     "action": "Fire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "3087df83-9d4e-4058-9676-bbc593f7480e",
+                    "id": "5ce1fab9-4f82-4dc0-ae38-3f5aac44f0e7",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da8c0e8e-1aed-4a1e-b9e6-2f51a4e50144",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "PauseMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e8a2472a-aff8-46c2-b7f6-5e57176520a1",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "PauseMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
