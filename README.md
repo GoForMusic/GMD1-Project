@@ -6,13 +6,15 @@ A project for VIA University GMD1 course, in this project , I've creating a game
 
 ## Youtube Link
 
+https://youtu.be/JICu3YCvec4
+
 ## List of blogs
 1. [Roll-a-ball](/blog/blog01.md)
 2. [Game Design Document & Milestones](/blog/blog02.md)
 3. [Developer post](/blog/blog03.md)
 4. [Developer post 2](/blog/blog04.md)
 5. [Developer post 3](/blog/blog05.md)
-6. [Personal Reflection](/blog/blog06.md)
+6. [Final game product and concludes the project](/blog/blog06.md)
 
 ## Unity packages
 1. [NEW Input System UNITY](https://docs.unity3d.com/Packages/com.unity.inputsystem@1.7/manual/index.html)
@@ -27,6 +29,3 @@ A project for VIA University GMD1 course, in this project , I've creating a game
 4. [RPG Tiny Hero Duo PBR Polyart](https://assetstore.unity.com/packages/p/rpg-tiny-hero-duo-pbr-polyart-225148)
 5. [RPG&Fantasy Mobile GUI with Source Files](https://assetstore.unity.com/packages/2d/gui/rpg-fantasy-mobile-gui-with-source-files-166086)
 6. [Forest - Low Poly Toon Battle Arena / Tower Defense Pack](https://assetstore.unity.com/packages/3d/environments/forest-low-poly-toon-battle-arena-tower-defense-pack-100080)
-
-
-## (Optional WebGL build project hosted on GitHub Pages)
