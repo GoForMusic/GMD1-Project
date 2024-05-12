@@ -125,7 +125,7 @@ namespace Model
 
 ## Final Touches
 
-A final touch is the redesign of the input system to accommodate gameplay on an arcade machine using two different controllers, each for a player. For PC, players will use the same keyboard (WASD and arrow keys for navigation) as well as (E and numpad 1 for attack).
+A final touch is the redesign of the input system to accommodate gameplay on an arcade machine using two different controllers, each for a player. For PC, players will use the keyboard for player 1 (WASD for navigation) and (E for attack) and the controller for player 2.
 
 ### Kow bugs
 

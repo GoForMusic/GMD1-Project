@@ -103,7 +103,7 @@
                 {
                     "name": "",
                     "id": "8baa3ae4-7cb4-44d6-88ec-d4fbc0d49073",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -204,7 +204,7 @@
                 {
                     "name": "up",
                     "id": "9af959c4-bf76-4352-8002-a404247a0a5b",
-                    "path": "<Keyboard>/w",
+                    "path": "<Keyboard>/upArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -215,7 +215,7 @@
                 {
                     "name": "down",
                     "id": "5a1721d4-004b-43f3-b255-8eab113c5dd4",
-                    "path": "<Keyboard>/s",
+                    "path": "<Keyboard>/downArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -226,7 +226,7 @@
                 {
                     "name": "left",
                     "id": "32ff0af0-4f02-46b7-be41-c522233901ae",
-                    "path": "<Keyboard>/a",
+                    "path": "<Keyboard>/leftArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -237,7 +237,7 @@
                 {
                     "name": "right",
                     "id": "bfb6d6bc-3d8f-4b87-91e1-5878e31ee7de",
-                    "path": "<Keyboard>/d",
+                    "path": "<Keyboard>/rightArrow",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
@@ -248,7 +248,7 @@
                 {
                     "name": "",
                     "id": "9f76752e-e90d-4e61-a8be-2983ad0bb484",
-                    "path": "<Mouse>/leftButton",
+                    "path": "<Keyboard>/numpad1",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
